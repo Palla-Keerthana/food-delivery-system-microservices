@@ -3,6 +3,9 @@ package com.fooddelivery.menumodule.controller;
 import com.fooddelivery.menumodule.dto.request.MenuRequestDto;
 import com.fooddelivery.menumodule.dto.response.MenuResponseDto;
 import com.fooddelivery.menumodule.service.MenuService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,24 +14,31 @@ import java.util.List;
 
 /**
  * REST Controller for Menu Item operations.
- * Handles all HTTP requests for menu management.
+ * Handles all HTTP requests related to menu management.
+ * Provides endpoints for adding, updating, deleting and viewing menu items.
  * Base URL: /api/menu
  */
 @RestController
 @RequestMapping("/api/menu")
+@Tag(name = "Menu Controller",
+        description = "APIs for managing menu items")
 public class MenuController {
 
     @Autowired
     private MenuService menuService;
 
     /**
-     * POST /api/menu
-     * Add a new menu item to a restaurant.
-     * Returns 201 CREATED on success.
+     * Adds a new menu item to a restaurant's menu.
+     * Only Restaurant Owner can perform this operation.
+     *
+     * @param dto contains item name, description, price and restaurantId
+     * @return 201 CREATED with success message
      */
+    @Operation(summary = "Add new menu item",
+            description = "Restaurant owner adds a new item to menu")
     @PostMapping
     public ResponseEntity<String> addMenuItem(
-            @RequestBody MenuRequestDto dto) {
+            @Valid @RequestBody MenuRequestDto dto) {
         menuService.addMenuItem(dto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -36,24 +46,33 @@ public class MenuController {
     }
 
     /**
-     * PUT /api/menu/{itemId}
-     * Update an existing menu item.
-     * Returns 200 OK on success.
+     * Updates an existing menu item with new details.
+     * Only Restaurant Owner can perform this operation.
+     *
+     * @param itemId the ID of the menu item to update
+     * @param dto    contains new name, description and price
+     * @return 200 OK with success message
      */
+    @Operation(summary = "Update menu item",
+            description = "Restaurant owner updates an existing menu item")
     @PutMapping("/{itemId}")
     public ResponseEntity<String> updateMenuItem(
             @PathVariable Long itemId,
-            @RequestBody MenuRequestDto dto) {
+            @Valid @RequestBody MenuRequestDto dto) {
         menuService.updateMenuItem(itemId, dto);
         return ResponseEntity
                 .ok("Menu item updated successfully!");
     }
 
     /**
-     * DELETE /api/menu/{itemId}
-     * Delete a menu item permanently.
-     * Returns 200 OK on success.
+     * Permanently deletes a menu item from the database.
+     * Only Restaurant Owner can perform this operation.
+     *
+     * @param itemId the ID of the menu item to delete
+     * @return 200 OK with success message
      */
+    @Operation(summary = "Delete menu item",
+            description = "Restaurant owner deletes a menu item permanently")
     @DeleteMapping("/{itemId}")
     public ResponseEntity<String> deleteMenuItem(
             @PathVariable Long itemId) {
@@ -63,10 +82,14 @@ public class MenuController {
     }
 
     /**
-     * GET /api/menu/{itemId}
-     * Get a single menu item by ID.
-     * Returns 200 OK with item details.
+     * Retrieves a single menu item by its ID.
+     * Accessible by all users.
+     *
+     * @param itemId the ID of the menu item to fetch
+     * @return 200 OK with MenuResponseDto
      */
+    @Operation(summary = "Get menu item by ID",
+            description = "Fetch a single menu item by its ID")
     @GetMapping("/{itemId}")
     public ResponseEntity<MenuResponseDto> getMenuItemById(
             @PathVariable Long itemId) {
@@ -75,10 +98,14 @@ public class MenuController {
     }
 
     /**
-     * GET /api/menu/restaurant/{restaurantId}
-     * Get all menu items for a specific restaurant.
-     * Returns 200 OK with list of items.
+     * Retrieves all menu items for a specific restaurant.
+     * Accessible by all users.
+     *
+     * @param restaurantId the ID of the restaurant
+     * @return 200 OK with list of MenuResponseDto
      */
+    @Operation(summary = "Get menu by restaurant",
+            description = "Fetch all menu items for a specific restaurant")
     @GetMapping("/restaurant/{restaurantId}")
     public ResponseEntity<List<MenuResponseDto>> getMenuByRestaurant(
             @PathVariable Long restaurantId) {
@@ -87,10 +114,14 @@ public class MenuController {
     }
 
     /**
-     * GET /api/menu/available
-     * Get all available menu items across all restaurants.
-     * Returns 200 OK with list of available items.
+     * Retrieves all available menu items across all restaurants.
+     * Only returns items where is_available is true AND quantity greater than 0.
+     * Accessible by all users — no token required.
+     *
+     * @return 200 OK with list of available MenuResponseDto
      */
+    @Operation(summary = "Get all available items",
+            description = "Returns all available menu items across all restaurants")
     @GetMapping("/available")
     public ResponseEntity<List<MenuResponseDto>> getAllAvailableItems() {
         return ResponseEntity
@@ -98,10 +129,13 @@ public class MenuController {
     }
 
     /**
-     * GET /api/menu
-     * Get all menu items.
-     * Returns 200 OK with complete list.
+     * Retrieves all menu items.
+     * Accessible by all users.
+     *
+     * @return 200 OK with complete list of MenuResponseDto
      */
+    @Operation(summary = "Get all menu items",
+            description = "Returns complete list of all menu items")
     @GetMapping
     public ResponseEntity<List<MenuResponseDto>> getAllMenuItems() {
         return ResponseEntity
@@ -109,10 +143,15 @@ public class MenuController {
     }
 
     /**
-     * PUT /api/menu/{itemId}/availability?status=true/false
-     * Toggle availability of a menu item.
-     * Returns 200 OK on success.
+     * Updates the availability status of a menu item.
+     * Restaurant owner can toggle item ON or OFF.
+     *
+     * @param itemId the ID of the menu item
+     * @param status true to mark available, false to mark unavailable
+     * @return 200 OK with success message
      */
+    @Operation(summary = "Toggle item availability",
+            description = "Restaurant owner toggles menu item availability on or off")
     @PutMapping("/{itemId}/availability")
     public ResponseEntity<String> updateAvailability(
             @PathVariable Long itemId,

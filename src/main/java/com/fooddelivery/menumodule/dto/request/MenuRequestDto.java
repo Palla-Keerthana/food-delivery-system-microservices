@@ -1,5 +1,6 @@
 package com.fooddelivery.menumodule.dto.request;
 
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,18 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class MenuRequestDto {
 
-    private String name;           // item name from user input
-    private String description;    // item description
-    private BigDecimal price;      // item price
-    private Long restaurantId;     // which restaurant this item belongs to
+    @NotBlank(message = "Item name cannot be empty")
+
+    private String name;
+
+    @NotBlank(message = "Description cannot be empty")
+    private String description;
+
+    @NotNull(message = "Price is required")
+    @Positive(message = "Price must be greater than zero")
+
+    private BigDecimal price;
+
+    @NotNull(message = "Restaurant ID is required")
+    private Long restaurantId;
 }

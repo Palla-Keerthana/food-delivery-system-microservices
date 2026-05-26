@@ -11,24 +11,20 @@ import java.util.List;
 
 @Repository
 public interface MenuItemRepository extends JpaRepository<MenuItem, Long> {
-//                                           ↑         ↑
-//                                        Entity    ID type
+
     @Transactional
     void deleteByRestaurantId(Long restaurantId);
-    // ✅ Find all items by restaurant
+
     List<MenuItem> findByRestaurantId(Long restaurantId);
 
-    // ✅ Find all available items with stock > 0
+
     List<MenuItem> findByAvailableTrueAndQuantityGreaterThan(int quantity);
 
-    // ✅ Find available items by restaurant
     List<MenuItem> findByRestaurantIdAndAvailableTrueAndQuantityGreaterThan(
             Long restaurantId, int quantity);
 
-    // ✅ Find item by name and restaurant
     MenuItem findByNameAndRestaurantId(String name, Long restaurantId);
 
-    // ✅ Reduce quantity after order placed
     @Modifying
     @Transactional
     @Query("UPDATE MenuItem m SET m.quantity = m.quantity - :qty, " +

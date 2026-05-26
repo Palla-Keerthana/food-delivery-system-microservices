@@ -1,20 +1,23 @@
-package com.fooddelivery.menumodule.service.Impl;
+package com.fooddelivery.menumodule.service.impl;
 
 import com.fooddelivery.menumodule.dto.request.RestaurantRequestDto;
 import com.fooddelivery.menumodule.dto.response.RestaurantResponseDto;
 import com.fooddelivery.menumodule.entity.Restaurant;
 import com.fooddelivery.menumodule.exception.InvalidRequestException;
-import com.fooddelivery.menumodule.exception.MenuItemNotFoundException;
 import com.fooddelivery.menumodule.exception.RestaurantNotFoundException;
 import com.fooddelivery.menumodule.repository.MenuItemRepository;
 import com.fooddelivery.menumodule.repository.RestaurantRepository;
 import com.fooddelivery.menumodule.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of RestaurantService interface.
+ * Contains business logic for all restaurant operations.
+ * Validates input, converts DTOs to entities and delegates to repository.
+ */
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
 
@@ -22,11 +25,17 @@ public class RestaurantServiceImpl implements RestaurantService {
     private RestaurantRepository restaurantRepository;
 
     @Autowired
-    private MenuItemRepository menuItemRepository; // ← ADD THIS!
+    private MenuItemRepository menuItemRepository;
 
+    /**
+     * Validates input, converts DTO to entity and saves restaurant.
+     * Called when a new Restaurant Owner completes registration.
+     *
+     * @param dto contains userId, restaurantName, location and contactNumber
+     * @throws InvalidRequestException if any required field is empty or invalid
+     */
     @Override
     public void registerRestaurant(RestaurantRequestDto dto) {
-        // ✅ validate input
         if (dto.getRestaurantName() == null || dto.getRestaurantName().trim().isEmpty()) {
             throw new InvalidRequestException("Restaurant name cannot be empty.");
         }
@@ -36,8 +45,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (dto.getContactNumber() == null || dto.getContactNumber().trim().isEmpty()) {
             throw new InvalidRequestException("Contact number cannot be empty.");
         }
-
-        // ✅ convert DTO to Entity
         Restaurant restaurant = new Restaurant();
         restaurant.setUserId(dto.getUserId());
         restaurant.setRestaurantName(dto.getRestaurantName());
@@ -46,6 +53,14 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantRepository.save(restaurant);
     }
 
+    /**
+     * Fetches restaurant by owner's userId and converts to DTO.
+     * Used after login to load the restaurant owner's details.
+     *
+     * @param userId the user ID of the restaurant owner
+     * @return RestaurantResponseDto with restaurant details
+     * @throws RestaurantNotFoundException if no restaurant found for userId
+     */
     @Override
     public RestaurantResponseDto getByUserId(Long userId) {
         Restaurant restaurant = restaurantRepository.findByUserId(userId)
@@ -54,6 +69,14 @@ public class RestaurantServiceImpl implements RestaurantService {
         return convertToDto(restaurant);
     }
 
+    /**
+     * Fetches single restaurant by ID and converts to DTO.
+     * Throws exception if restaurant does not exist in database.
+     *
+     * @param restaurantId the ID of the restaurant
+     * @return RestaurantResponseDto with restaurant details
+     * @throws RestaurantNotFoundException if restaurant not found in database
+     */
     @Override
     public RestaurantResponseDto getRestaurant(Long restaurantId) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
@@ -62,6 +85,12 @@ public class RestaurantServiceImpl implements RestaurantService {
         return convertToDto(restaurant);
     }
 
+    /**
+     * Fetches all restaurants and converts each to DTO.
+     * Returns empty list if no restaurants exist in database.
+     *
+     * @return list of all RestaurantResponseDto
+     */
     @Override
     public List<RestaurantResponseDto> getAllRestaurants() {
         return restaurantRepository.findAll()
@@ -70,46 +99,57 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Validates ID, fetches restaurant and updates with new details.
+     * Only updates name, location and contactNumber — userId never changes.
+     *
+     * @param restaurantId the ID of the restaurant to update
+     * @param dto          contains new restaurantName, location and contactNumber
+     * @throws InvalidRequestException     if ID is invalid
+     * @throws RestaurantNotFoundException if restaurant not found in database
+     */
     @Override
     public void updateRestaurant(Long restaurantId, RestaurantRequestDto dto) {
         if (restaurantId == null || restaurantId <= 0) {
             throw new InvalidRequestException("Invalid restaurant ID.");
         }
-
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new RestaurantNotFoundException(
                         "Restaurant not found with ID: " + restaurantId));
-
-        // ✅ only update these 3 fields — NOT userId!
         restaurant.setRestaurantName(dto.getRestaurantName());
         restaurant.setLocation(dto.getLocation());
         restaurant.setContactNumber(dto.getContactNumber());
-        // ✅ userId stays same — never changes!
-
         restaurantRepository.save(restaurant);
     }
 
+    /**
+     * Deletes all menu items of restaurant first then deletes restaurant.
+     * Prevents foreign key constraint errors during deletion.
+     *
+     * @param restaurantId the ID of the restaurant to delete
+     * @throws InvalidRequestException     if ID is invalid
+     * @throws RestaurantNotFoundException if restaurant not found in database
+     */
     @Override
-    @Transactional // ← important! both deletes in one transaction
     public void deleteRestaurant(Long restaurantId) {
-        // ✅ validate
         if (restaurantId == null || restaurantId <= 0) {
             throw new InvalidRequestException("Invalid restaurant ID.");
         }
-        // ✅ check if exists
         if (!restaurantRepository.existsById(restaurantId)) {
             throw new RestaurantNotFoundException(
                     "Restaurant not found with ID: " + restaurantId);
         }
-
-        // ✅ Step 1 — delete menu items first!
         menuItemRepository.deleteByRestaurantId(restaurantId);
-
-        // ✅ Step 2 — then delete restaurant
         restaurantRepository.deleteById(restaurantId);
     }
 
-    // ✅ private helper
+    /**
+     * Converts Restaurant entity to RestaurantResponseDto.
+     * Private helper used by all methods that return data to client.
+     *
+     * @param r the Restaurant entity from database
+     * @return RestaurantResponseDto with fields copied from entity
+     */
     private RestaurantResponseDto convertToDto(Restaurant r) {
         RestaurantResponseDto dto = new RestaurantResponseDto();
         dto.setRestaurantId(r.getRestaurantId());
