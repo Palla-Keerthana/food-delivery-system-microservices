@@ -1,0 +1,30 @@
+### Add Restaurant
+POST http://localhost:8082/api/restaurants
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "restaurantName": "A2B",
+  "location": "Chennai",
+  "contactNumber": "9000000011"
+}
+
+### Get All Restaurants
+GET http://localhost:8082/api/restaurants
+
+### Add Menu Item
+POST http://localhost:8082/api/menu
+Content-Type: application/json
+
+{
+  "name": "Chicken Biryani",
+  "description": "Spicy biryani",
+  "price": 250.00,
+  "restaurantId": 1
+}
+
+### Get All Available Items
+GET http://localhost:8082/api/menu/available
+
+### Get Menu by Restaurant
+GET http://localhost:8082/api/menu/restaurant/1
