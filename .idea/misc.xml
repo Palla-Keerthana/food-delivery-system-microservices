@@ -8,10 +8,14 @@
         <option value="$PROJECT_DIR$/services/customer-service/customer-service/pom.xml" />
         <option value="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/infrastructure/eureka-server/eureka-server/pom.xml" />
+        <option value="$PROJECT_DIR$/services/menu-service/pom.xml" />
+        <option value="$PROJECT_DIR$/services/order-service/pom.xml" />
+        <option value="$PROJECT_DIR$/services/delivery-service/delivery-service/pom.xml" />
+        <option value="$PROJECT_DIR$/services/payment-service/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="ms-21" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="21" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
