@@ -68,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
                 restaurantRequest.setLocation(request.getLocation());
                 restaurantRequest.setContactNumber(request.getContactNumber());
                 try {
-                    restaurantClient.createProfile(restaurantRequest);
+                    restaurantClient.registerRestaurant(restaurantRequest); // ← was createProfile
                     log.info("Restaurant profile created for userId: {}", savedUser.getUserId());
                 } catch (Exception e) {
                     log.error("Restaurant service unavailable, profile not created: {}", e.getMessage());
@@ -77,10 +77,10 @@ public class AuthServiceImpl implements AuthService {
             case AGENT -> {
                 AgentRequest agentRequest = new AgentRequest();
                 agentRequest.setUserId(savedUser.getUserId());
-                agentRequest.setAgentName(request.getName());
-                agentRequest.setContactNumber(request.getPhone());
+                agentRequest.setName(request.getName());     // ← was setAgentName
+                agentRequest.setPhone(request.getPhone());   // ← was setContactNumber
                 try {
-                    agentClient.createProfile(agentRequest);
+                    agentClient.registerAgent(agentRequest); // ← was createProfile
                     log.info("Agent profile created for userId: {}", savedUser.getUserId());
                 } catch (Exception e) {
                     log.error("Agent service unavailable, profile not created: {}", e.getMessage());
