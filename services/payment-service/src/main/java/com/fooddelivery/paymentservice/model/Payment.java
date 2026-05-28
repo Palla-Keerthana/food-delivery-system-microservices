@@ -1,5 +1,6 @@
-package com.fooddelivery.payment_service.model;
-
+package com.fooddelivery.paymentservice.model;
+import com.fooddelivery.paymentservice.model.PaymentMethod;
+import com.fooddelivery.paymentservice.model.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;

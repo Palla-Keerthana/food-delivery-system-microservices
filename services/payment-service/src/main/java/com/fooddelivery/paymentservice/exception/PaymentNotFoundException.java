@@ -1,4 +1,4 @@
-package com.fooddelivery.payment_service.exception;
+package com.fooddelivery.paymentservice.exception;
 
 public class PaymentNotFoundException
         extends RuntimeException {

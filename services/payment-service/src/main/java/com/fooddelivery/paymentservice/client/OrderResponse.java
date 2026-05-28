@@ -1,5 +1,5 @@
 // OrderResponse.java — in client package
-package com.fooddelivery.payment_service.client;
+package com.fooddelivery.paymentservice.client;
 
 import lombok.*;
 

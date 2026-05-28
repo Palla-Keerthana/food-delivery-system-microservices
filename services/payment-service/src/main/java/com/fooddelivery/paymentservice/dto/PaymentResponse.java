@@ -1,7 +1,7 @@
-package com.fooddelivery.payment_service.dto;
+package com.fooddelivery.paymentservice.dto;
 
-import com.fooddelivery.payment_service.model.PaymentMethod;
-import com.fooddelivery.payment_service.model.PaymentStatus;
+import com.fooddelivery.paymentservice.model.PaymentMethod;
+import com.fooddelivery.paymentservice.model.PaymentStatus;
 import lombok.*;
 import java.time.LocalDateTime;
 
@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class PaymentResponse {
-
     private Long paymentId;
     private Long orderId;
     private Long customerId;
