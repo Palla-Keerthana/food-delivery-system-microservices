@@ -7,6 +7,7 @@ import com.fooddelivery.auth.dto.*;
 import com.fooddelivery.auth.entity.User;
 import com.fooddelivery.auth.exception.AuthenticationException;
 import com.fooddelivery.auth.exception.InvalidRequestException;
+import com.fooddelivery.auth.exception.ResourceNotFoundException;
 import com.fooddelivery.auth.repository.UserRepository;
 import com.fooddelivery.auth.service.AuthService;
 import com.fooddelivery.auth.util.JwtUtil;
@@ -118,5 +119,41 @@ public class AuthServiceImpl implements AuthService {
         log.info("User logged in successfully: {}", user.getEmail());
 
         return new LoginResponse(user.getUserId(),token, user.getRole().name(), user.getEmail());
+    }
+
+    @Override
+    public String updatePassword(Long userId, UpdatePasswordRequest request) {
+
+        // Find user by ID
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> {
+                    log.warn("User not found for ID: {}", userId);
+                    return new ResourceNotFoundException("User not found");
+                });
+
+        // Verify current password
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            log.warn("Password update failed - incorrect current password for userId: {}", userId);
+            throw new AuthenticationException("Current password is incorrect");
+        }
+
+        // Check new password and confirm password match
+        if (!request.getNewPassword().equals(request.getConfirmPassword())) {
+            log.warn("Password update failed - passwords don't match for userId: {}", userId);
+            throw new InvalidRequestException("New password and confirm password do not match");
+        }
+
+        // Check new password is not same as current
+        if (passwordEncoder.matches(request.getNewPassword(), user.getPassword())) {
+            log.warn("Password update failed - same as current password for userId: {}", userId);
+            throw new InvalidRequestException("New password cannot be same as current password");
+        }
+
+        // Update password
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+        log.info("Password updated successfully for userId: {}", userId);
+
+        return "Password updated successfully";
     }
 }
