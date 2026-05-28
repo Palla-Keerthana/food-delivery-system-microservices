@@ -64,4 +64,6 @@ public interface MenuService {
      * @param status true to mark available, false to mark unavailable
      */
     void updateAvailability(Long itemId, boolean status);
+
+    void reduceQuantity(Long itemId, int quantity);
 }

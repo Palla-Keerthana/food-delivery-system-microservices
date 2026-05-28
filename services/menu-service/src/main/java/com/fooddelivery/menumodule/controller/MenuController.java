@@ -160,4 +160,15 @@ public class MenuController {
         return ResponseEntity
                 .ok("Availability updated successfully!");
     }
+
+
+    @Operation(summary = "Reduce item quantity",
+            description = "Called by order-service after placing order to reduce stock")
+    @PutMapping("/{itemId}/reduce-quantity")
+    public ResponseEntity<String> reduceQuantity(
+            @PathVariable Long itemId,
+            @RequestParam int quantity) {
+        menuService.reduceQuantity(itemId, quantity);
+        return ResponseEntity.ok("Quantity reduced successfully!");
+    }
 }

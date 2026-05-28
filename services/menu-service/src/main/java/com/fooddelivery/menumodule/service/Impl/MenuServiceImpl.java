@@ -181,6 +181,27 @@ public class MenuServiceImpl implements MenuService {
     }
 
 
+    @Override
+    public void reduceQuantity(Long itemId, int quantity) {
+        MenuItem item = menuItemRepository.findById(itemId)
+                .orElseThrow(() -> new MenuItemNotFoundException(
+                        "Menu item not found with ID: " + itemId));
+
+        if (item.getQuantity() < quantity) {
+            throw new InvalidRequestException(
+                    "Insufficient stock for item: " + item.getName());
+        }
+
+        item.setQuantity(item.getQuantity() - quantity);
+
+        if (item.getQuantity() == 0) {
+            item.setAvailable(false);
+        }
+
+        menuItemRepository.save(item);
+    }
+
+
     /**
      * Converts MenuItem entity to MenuResponseDto.
      * Private helper used by all methods that return data to client.
