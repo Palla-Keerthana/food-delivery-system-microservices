@@ -40,9 +40,7 @@ public class OrderResponseDto {
     private Long orderId;
     private Long customerId;
     private Long restaurantId;
-    private String customerAddress;          // ← new
-    private Double customerLat;              // ← new
-    private Double customerLon;              // ← new
+    private String customerAddress;
     private String status;
     private BigDecimal totalAmount;
     private LocalDateTime orderTime;
