@@ -1,12 +1,12 @@
-package com.fooddelivery.customer_service.service.impl;
+package com.fooddelivery.customer.service.impl;
 
-import com.fooddelivery.customer_service.dto.CustomerRequest;
-import com.fooddelivery.customer_service.dto.CustomerResponse;
-import com.fooddelivery.customer_service.entity.Customer;
-import com.fooddelivery.customer_service.exception.InvalidRequestException;
-import com.fooddelivery.customer_service.exception.ResourceNotFoundException;
-import com.fooddelivery.customer_service.repository.CustomerRepository;
-import com.fooddelivery.customer_service.service.CustomerService;
+import com.fooddelivery.customer.dto.CustomerRequest;
+import com.fooddelivery.customer.dto.CustomerResponse;
+import com.fooddelivery.customer.entity.Customer;
+import com.fooddelivery.customer.exception.InvalidRequestException;
+import com.fooddelivery.customer.exception.ResourceNotFoundException;
+import com.fooddelivery.customer.repository.CustomerRepository;
+import com.fooddelivery.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

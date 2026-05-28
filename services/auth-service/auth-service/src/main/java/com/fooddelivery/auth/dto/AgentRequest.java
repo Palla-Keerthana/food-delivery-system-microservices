@@ -1,4 +1,4 @@
-package com.fooddelivery.auth_service.dto;
+package com.fooddelivery.auth.dto;
 
 import lombok.Data;
 

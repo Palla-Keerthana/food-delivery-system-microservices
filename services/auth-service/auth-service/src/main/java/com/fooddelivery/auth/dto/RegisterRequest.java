@@ -1,6 +1,6 @@
-package com.fooddelivery.auth_service.dto;
+package com.fooddelivery.auth.dto;
 
-import com.fooddelivery.auth_service.entity.User;
+import com.fooddelivery.auth.entity.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

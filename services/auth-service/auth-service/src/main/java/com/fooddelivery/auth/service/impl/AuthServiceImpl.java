@@ -1,15 +1,15 @@
-package com.fooddelivery.auth_service.service.impl;
+package com.fooddelivery.auth.service.impl;
 
-import com.fooddelivery.auth_service.client.AgentClient;
-import com.fooddelivery.auth_service.client.CustomerClient;
-import com.fooddelivery.auth_service.client.RestaurantClient;
-import com.fooddelivery.auth_service.dto.*;
-import com.fooddelivery.auth_service.entity.User;
-import com.fooddelivery.auth_service.exception.AuthenticationException;
-import com.fooddelivery.auth_service.exception.InvalidRequestException;
-import com.fooddelivery.auth_service.repository.UserRepository;
-import com.fooddelivery.auth_service.service.AuthService;
-import com.fooddelivery.auth_service.util.JwtUtil;
+import com.fooddelivery.auth.client.AgentClient;
+import com.fooddelivery.auth.client.CustomerClient;
+import com.fooddelivery.auth.client.RestaurantClient;
+import com.fooddelivery.auth.dto.*;
+import com.fooddelivery.auth.entity.User;
+import com.fooddelivery.auth.exception.AuthenticationException;
+import com.fooddelivery.auth.exception.InvalidRequestException;
+import com.fooddelivery.auth.repository.UserRepository;
+import com.fooddelivery.auth.service.AuthService;
+import com.fooddelivery.auth.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

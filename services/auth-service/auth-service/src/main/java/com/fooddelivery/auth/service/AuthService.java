@@ -1,8 +1,8 @@
-package com.fooddelivery.auth_service.service;
+package com.fooddelivery.auth.service;
 
-import com.fooddelivery.auth_service.dto.LoginRequest;
-import com.fooddelivery.auth_service.dto.LoginResponse;
-import com.fooddelivery.auth_service.dto.RegisterRequest;
+import com.fooddelivery.auth.dto.LoginRequest;
+import com.fooddelivery.auth.dto.LoginResponse;
+import com.fooddelivery.auth.dto.RegisterRequest;
 
 public interface AuthService {
 

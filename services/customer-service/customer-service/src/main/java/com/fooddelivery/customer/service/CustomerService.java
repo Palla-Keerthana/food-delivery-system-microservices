@@ -1,7 +1,7 @@
-package com.fooddelivery.customer_service.service;
+package com.fooddelivery.customer.service;
 
-import com.fooddelivery.customer_service.dto.CustomerRequest;
-import com.fooddelivery.customer_service.dto.CustomerResponse;
+import com.fooddelivery.customer.dto.CustomerRequest;
+import com.fooddelivery.customer.dto.CustomerResponse;
 
 public interface CustomerService {
 

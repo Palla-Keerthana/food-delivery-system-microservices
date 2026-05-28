@@ -1,4 +1,4 @@
-package com.fooddelivery.customer_service.entity;
+package com.fooddelivery.customer.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

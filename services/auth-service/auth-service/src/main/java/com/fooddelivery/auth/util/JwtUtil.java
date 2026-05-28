@@ -1,4 +1,4 @@
-package com.fooddelivery.auth_service.util;
+package com.fooddelivery.auth.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

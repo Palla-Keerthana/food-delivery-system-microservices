@@ -1,4 +1,4 @@
-package com.fooddelivery.customer_service.dto;
+package com.fooddelivery.customer.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

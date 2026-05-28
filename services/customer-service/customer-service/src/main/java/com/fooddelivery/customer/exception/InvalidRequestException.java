@@ -1,4 +1,4 @@
-package com.fooddelivery.customer_service.exception;
+package com.fooddelivery.customer.exception;
 
 public class InvalidRequestException extends RuntimeException {
     public InvalidRequestException(String message) {

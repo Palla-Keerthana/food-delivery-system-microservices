@@ -1,4 +1,4 @@
-package com.fooddelivery.customer_service.exception;
+package com.fooddelivery.customer.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

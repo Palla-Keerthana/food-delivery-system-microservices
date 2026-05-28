@@ -1,4 +1,4 @@
-package com.fooddelivery.customer_service.dto;
+package com.fooddelivery.customer.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

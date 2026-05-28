@@ -1,6 +1,6 @@
-package com.fooddelivery.customer_service.repository;
+package com.fooddelivery.customer.repository;
 
-import com.fooddelivery.customer_service.entity.Customer;
+import com.fooddelivery.customer.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

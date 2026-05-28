@@ -1,9 +1,9 @@
-package com.fooddelivery.auth_service.controller;
+package com.fooddelivery.auth.controller;
 
-import com.fooddelivery.auth_service.dto.LoginRequest;
-import com.fooddelivery.auth_service.dto.LoginResponse;
-import com.fooddelivery.auth_service.dto.RegisterRequest;
-import com.fooddelivery.auth_service.service.AuthService;
+import com.fooddelivery.auth.dto.LoginRequest;
+import com.fooddelivery.auth.dto.LoginResponse;
+import com.fooddelivery.auth.dto.RegisterRequest;
+import com.fooddelivery.auth.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

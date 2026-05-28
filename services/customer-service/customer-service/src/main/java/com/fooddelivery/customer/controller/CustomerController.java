@@ -1,8 +1,8 @@
-package com.fooddelivery.customer_service.controller;
+package com.fooddelivery.customer.controller;
 
-import com.fooddelivery.customer_service.dto.CustomerRequest;
-import com.fooddelivery.customer_service.dto.CustomerResponse;
-import com.fooddelivery.customer_service.service.CustomerService;
+import com.fooddelivery.customer.dto.CustomerRequest;
+import com.fooddelivery.customer.dto.CustomerResponse;
+import com.fooddelivery.customer.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

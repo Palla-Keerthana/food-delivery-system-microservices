@@ -1,4 +1,4 @@
-package com.fooddelivery.auth_service.entity;
+package com.fooddelivery.auth.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.fooddelivery.auth_service.exception;
+package com.fooddelivery.auth.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {

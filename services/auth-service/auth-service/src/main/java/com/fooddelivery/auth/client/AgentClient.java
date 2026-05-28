@@ -1,6 +1,6 @@
-package com.fooddelivery.auth_service.client;
+package com.fooddelivery.auth.client;
 
-import com.fooddelivery.auth_service.dto.AgentRequest;
+import com.fooddelivery.auth.dto.AgentRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
