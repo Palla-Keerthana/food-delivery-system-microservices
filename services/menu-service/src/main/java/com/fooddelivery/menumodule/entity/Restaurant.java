@@ -5,19 +5,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
+@Entity
+@Table(name = "restaurants")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity                            // ← tells JPA this is a DB table
-@Table(name = "restaurants")       // ← maps to restaurants table in DB
 public class Restaurant {
 
-    @Id                            // ← primary key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // ← auto increment
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "restaurant_id")
     private Long restaurantId;
 
-    @Column(name = "user_id")      // ← foreign key to users table
+    @Column(name = "user_id")
     private Long userId;
 
     @Column(name = "restaurant_name", nullable = false)
@@ -28,4 +32,10 @@ public class Restaurant {
 
     @Column(name = "contact_number")
     private String contactNumber;
+
+    @OneToMany(mappedBy = "restaurant",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<MenuItem> menuItems;
 }

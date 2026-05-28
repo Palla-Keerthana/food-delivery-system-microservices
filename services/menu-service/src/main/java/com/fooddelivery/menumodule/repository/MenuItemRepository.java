@@ -12,19 +12,44 @@ import java.util.List;
 @Repository
 public interface MenuItemRepository extends JpaRepository<MenuItem, Long> {
 
+    /**
+     * Deletes all menu items belonging to a specific restaurant.
+     * Called before deleting restaurant to prevent foreign key errors.
+     * CascadeType.ALL handles this automatically now!
+     */
     @Transactional
-    void deleteByRestaurantId(Long restaurantId);
+    void deleteByRestaurant_RestaurantId(Long restaurantId);
 
-    List<MenuItem> findByRestaurantId(Long restaurantId);
+    /**
+     * Finds all menu items for a specific restaurant.
+     * Uses restaurant_restaurantId pattern for JPA relationship.
+     */
+    List<MenuItem> findByRestaurant_RestaurantId(Long restaurantId);
 
-
+    /**
+     * Finds all available items with stock greater than zero.
+     * Used by customers to view all available items.
+     */
     List<MenuItem> findByAvailableTrueAndQuantityGreaterThan(int quantity);
 
-    List<MenuItem> findByRestaurantIdAndAvailableTrueAndQuantityGreaterThan(
+    /**
+     * Finds available items with stock for a specific restaurant.
+     * Used when customer selects restaurant to order from.
+     */
+    List<MenuItem> findByRestaurant_RestaurantIdAndAvailableTrueAndQuantityGreaterThan(
             Long restaurantId, int quantity);
 
-    MenuItem findByNameAndRestaurantId(String name, Long restaurantId);
+    /**
+     * Finds menu item by name within a specific restaurant.
+     * Used during order placement when customer types item name.
+     */
+    MenuItem findByNameAndRestaurant_RestaurantId(
+            String name, Long restaurantId);
 
+    /**
+     * Reduces stock quantity after order placed.
+     * Automatically marks item unavailable if stock reaches zero.
+     */
     @Modifying
     @Transactional
     @Query("UPDATE MenuItem m SET m.quantity = m.quantity - :qty, " +

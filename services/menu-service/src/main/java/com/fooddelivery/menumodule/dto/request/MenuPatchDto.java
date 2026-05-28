@@ -1,20 +1,23 @@
-package com.fooddelivery.menumodule.dto.response;
+package com.fooddelivery.menumodule.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
+/**
+ * DTO for partial update of MenuItem.
+ * All fields are optional — only provided fields are updated.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MenuResponseDto {
+public class MenuPatchDto {
 
-    private Long itemId;
+    // All fields optional — null means don't update!
     private String name;
     private String description;
     private BigDecimal price;
     private Long restaurantId;
-    private boolean available;
-    private int quantity;
+    private Integer quantity;
 }
