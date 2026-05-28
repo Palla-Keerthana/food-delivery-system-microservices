@@ -14,6 +14,4 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     // replaces: findByRestaurantId SQL query
     List<Order> findByRestaurantId(Long restaurantId);
-
-    // replaces: updateStatus SQL query — JPA handles this via save()
 }

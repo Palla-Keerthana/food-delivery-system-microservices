@@ -58,6 +58,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setCustomerId(dto.getCustomerId());
         order.setRestaurantId(dto.getRestaurantId());
+        order.setCustomerAddress(dto.getCustomerAddress());
         order.setOrderStatus("PLACED");
 
         for (OrderItemRequestDto item : dto.getItems()) {
@@ -97,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResponseDto getOrderById(Long orderId) {
+    public OrderResponseDto getOrderById(Long orderId) throws ResourceNotFoundException{
 
         log.info("Fetching orderId={}", orderId);
 
@@ -121,7 +122,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrderStatus(Long orderId, String status) {
+    public List<OrderResponseDto> getOrdersByRestaurant(Long restaurantId) throws ResourceNotFoundException {
+
+        log.info("Fetching orders for restaurantId={}", restaurantId);
+
+        List<Order> orders = orderRepository.findByRestaurantId(restaurantId);
+
+        if (orders.isEmpty()) {
+            throw new ResourceNotFoundException(
+                    "No orders found for restaurantId: " + restaurantId);
+        }
+
+        return orders.stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public void updateOrderStatus(Long orderId, String status) throws ResourceNotFoundException{
 
         log.info("Updating orderId={} to status={}", orderId, status);
 
@@ -140,7 +159,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String getOrderStatus(Long orderId) {
+    public String getOrderStatus(Long orderId) throws ResourceNotFoundException{
 
         log.info("Getting status for orderId={}", orderId);
 
@@ -168,6 +187,7 @@ public class OrderServiceImpl implements OrderService {
         response.setOrderId(order.getOrderId());
         response.setCustomerId(order.getCustomerId());
         response.setRestaurantId(order.getRestaurantId());
+        response.setCustomerAddress(order.getCustomerAddress());
         response.setStatus(order.getOrderStatus());
         response.setTotalAmount(order.getTotalAmount());
         response.setOrderTime(order.getOrderTime());

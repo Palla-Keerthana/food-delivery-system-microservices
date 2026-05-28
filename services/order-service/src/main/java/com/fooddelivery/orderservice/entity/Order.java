@@ -77,12 +77,6 @@ public class Order {
     @Column(name = "customer_address")       // ← new
     private String customerAddress;
 
-    @Column(name = "customer_lat")           // ← new
-    private Double customerLat;
-
-    @Column(name = "customer_lon")           // ← new
-    private Double customerLon;
-
     @Column(name = "order_status")
     private String orderStatus;
 
