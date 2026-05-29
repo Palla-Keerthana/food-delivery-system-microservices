@@ -156,25 +156,6 @@ public class MenuController {
     }
 
     /**
-     * Reduces stock quantity after order is placed.
-     * Called by Order Service via Feign Client.
-     *
-     * @param itemId   the ID of menu item
-     * @param quantity quantity to reduce
-     * @return 200 OK on success
-     */
-    @Operation(summary = "Reduce item quantity",
-            description = "Called by Order Service after order placed")
-    @PutMapping("/{itemId}/reduce")
-    public ResponseEntity<String> reduceQuantity(
-            @PathVariable Long itemId,
-            @RequestParam("quantity") int quantity) {
-        log.info("PUT /api/menu/{}/reduce - Reducing quantity by {}", itemId, quantity);
-        menuService.reduceQuantity(itemId, quantity);
-        log.info("Quantity reduced successfully for item ID: {}", itemId);
-        return ResponseEntity.ok("Quantity reduced successfully!");
-    }
-    /**
      * PATCH /api/menu/{itemId}
      * Partially updates a menu item.
      * Only provided fields are updated — null fields ignored.
@@ -214,5 +195,27 @@ public class MenuController {
         log.info("Availability updated for item ID: {} to {}", itemId, status);
         return ResponseEntity
                 .ok("Availability updated successfully!");
+    }
+
+
+    /**
+     * Reduces stock quantity after order is placed.
+     * Called by Order Service via Feign Client.
+     *
+     * @param itemId   the ID of menu item
+     * @param quantity quantity to reduce
+     * @return 200 OK on success
+     */
+    @Operation(summary = "Reduce item quantity",
+            description = "Called by Order Service after order placed")
+    @PutMapping("/{itemId}/reduce")
+    public ResponseEntity<String> reduceQuantity(
+            @PathVariable Long itemId,
+            @RequestParam("quantity") int quantity) {
+        log.info("PUT /api/menu/{}/reduce - Reducing quantity by {}", itemId, quantity);
+        menuService.reduceQuantity(itemId, quantity);
+        log.info("Quantity reduced successfully for item ID: {}", itemId);
+        return ResponseEntity.ok("Quantity reduced successfully!");
+
     }
 }
