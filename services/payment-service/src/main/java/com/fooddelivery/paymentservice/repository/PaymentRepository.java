@@ -1,7 +1,7 @@
-package com.fooddelivery.payment_service.repository;
+package com.fooddelivery.paymentservice.repository;
 
-import com.fooddelivery.payment_service.model.Payment;
-import com.fooddelivery.payment_service.model.PaymentStatus;
+import com.fooddelivery.paymentservice.model.Payment;
+import com.fooddelivery.paymentservice.model.PaymentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;

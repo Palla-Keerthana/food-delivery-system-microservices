@@ -1,4 +1,4 @@
-package com.fooddelivery.payment_service.model;
+package com.fooddelivery.paymentservice.model;
 
 public enum PaymentMethod {
     UPI,

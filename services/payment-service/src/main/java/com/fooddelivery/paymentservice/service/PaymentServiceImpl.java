@@ -1,11 +1,11 @@
 package com.fooddelivery.payment_service.service;
 
+import com.fooddelivery.payment_service.client.OrderResponse;
 import com.fooddelivery.payment_service.client.OrderServiceClient;
 import com.fooddelivery.payment_service.dto.*;
 import com.fooddelivery.payment_service.exception.*;
 import com.fooddelivery.payment_service.model.*;
 import com.fooddelivery.payment_service.repository.PaymentRepository;
-import com.fooddelivery.payment_service.dto.RefundResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -23,7 +23,33 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentResponse processPayment(
             PaymentRequest request) {
 
-        // check if payment already done for this order
+        // Step 1 — validate order exists
+        OrderResponse order;
+        try {
+            order = orderServiceClient
+                    .getOrder(request.getOrderId());
+        } catch (Exception e) {
+            throw new RuntimeException(
+                    "Order not found: "
+                            + request.getOrderId());
+        }
+
+        // Step 2 — validate customer matches order
+        if (!order.getCustomerId()
+                .equals(request.getCustomerId())) {
+            throw new RuntimeException(
+                    "Customer does not match order");
+        }
+
+        // Step 3 — validate order status is PLACED
+        if (!order.getStatus().equals("PLACED")) {
+            throw new RuntimeException(
+                    "Order is not in PLACED status. "
+                            + "Current status: "
+                            + order.getStatus());
+        }
+
+        // Step 4 — check duplicate payment
         if (paymentRepository.existsByOrderIdAndStatus(
                 request.getOrderId(),
                 PaymentStatus.SUCCESS)) {
@@ -32,11 +58,11 @@ public class PaymentServiceImpl implements PaymentService {
                             + request.getOrderId());
         }
 
-        // use amount from request directly for now
-        // TODO: fetch from order-service when integrated
-        Double amount = request.getAmount();
+        // Step 5 — fetch amount from order-service
+        // customer cannot manipulate amount
+        Double amount = order.getTotalAmount();
 
-        // build payment entity
+        // Step 6 — build payment entity
         Payment payment = Payment.builder()
                 .orderId(request.getOrderId())
                 .customerId(request.getCustomerId())
@@ -44,7 +70,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .paymentMethod(request.getPaymentMethod())
                 .build();
 
-        // set method specific fields
+        // Step 7 — set method specific fields
         switch (request.getPaymentMethod()) {
             case UPI -> {
                 payment.setUpiId(request.getUpiId());
@@ -55,8 +81,7 @@ public class PaymentServiceImpl implements PaymentService {
                 String cardNum = request.getCardNumber();
                 payment.setCardLastFourDigits(
                         cardNum != null && cardNum.length() >= 4
-                                ? cardNum.substring(
-                                cardNum.length() - 4)
+                                ? cardNum.substring(cardNum.length() - 4)
                                 : "0000");
                 payment.setTransactionId(
                         generateTransactionId("CARD"));
@@ -69,45 +94,42 @@ public class PaymentServiceImpl implements PaymentService {
             }
         }
 
-        // simulate payment processing
+        // Step 8 — simulate payment
         boolean paymentSuccess = simulatePayment(request);
 
         if (paymentSuccess) {
-            // set SUCCESS before save
             payment.setStatus(PaymentStatus.SUCCESS);
 
-            // notify order-service — skip if not running
+            // Step 9 — notify order-service → CONFIRMED
             try {
-                Map<String, String> statusUpdate =
-                        new HashMap<>();
-                statusUpdate.put("status", "PAYMENT_SUCCESS");
                 orderServiceClient.updateOrderStatus(
-                        request.getOrderId(), statusUpdate);
+                        request.getOrderId(),
+                        Map.of("status", "CONFIRMED"));
             } catch (Exception e) {
                 System.out.println(
-                        "Order service not available: "
+                        "Could not update order status: "
                                 + e.getMessage());
             }
+
         } else {
             payment.setStatus(PaymentStatus.FAILED);
             payment.setFailureReason(
                     "Payment processing failed");
 
-            // notify order-service — skip if not running
+            // notify order-service → PAYMENT_FAILED
             try {
-                Map<String, String> statusUpdate =
-                        new HashMap<>();
-                statusUpdate.put("status", "PAYMENT_FAILED");
                 orderServiceClient.updateOrderStatus(
-                        request.getOrderId(), statusUpdate);
+                        request.getOrderId(),
+                        Map.of("status", "PAYMENT_FAILED"));
             } catch (Exception e) {
                 System.out.println(
-                        "Order service not available: "
+                        "Could not update order status: "
                                 + e.getMessage());
             }
         }
 
-        return mapToResponse(paymentRepository.save(payment));
+        return mapToResponse(
+                paymentRepository.save(payment));
     }
 
     @Override
@@ -121,8 +143,7 @@ public class PaymentServiceImpl implements PaymentService {
         return paymentRepository.findByOrderId(orderId)
                 .map(this::mapToResponse)
                 .orElseThrow(() -> new PaymentNotFoundException(
-                        "Payment not found for order: "
-                                + orderId));
+                        "Payment not found for order: " + orderId));
     }
 
     @Override
@@ -141,8 +162,7 @@ public class PaymentServiceImpl implements PaymentService {
         Payment payment = paymentRepository
                 .findByOrderId(orderId)
                 .orElseThrow(() -> new PaymentNotFoundException(
-                        "Payment not found for order: "
-                                + orderId));
+                        "Payment not found for order: " + orderId));
 
         if (payment.getStatus() != PaymentStatus.SUCCESS) {
             throw new RuntimeException(
@@ -152,6 +172,17 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setStatus(PaymentStatus.REFUNDED);
         payment.setRefundTime(LocalDateTime.now());
         paymentRepository.save(payment);
+
+        // notify order-service → CANCELLED
+        try {
+            orderServiceClient.updateOrderStatus(
+                    orderId,
+                    Map.of("status", "CANCELLED"));
+        } catch (Exception e) {
+            System.out.println(
+                    "Could not update order status: "
+                            + e.getMessage());
+        }
 
         return RefundResponse.builder()
                 .paymentId(payment.getPaymentId())

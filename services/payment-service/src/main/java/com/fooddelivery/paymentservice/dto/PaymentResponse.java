@@ -1,4 +1,4 @@
-package com.fooddelivery.payment_service.dto;
+package com.fooddelivery.paymentservice.dto;
 
 import com.fooddelivery.payment_service.model.PaymentMethod;
 import com.fooddelivery.payment_service.model.PaymentStatus;

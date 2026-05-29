@@ -1,7 +1,7 @@
-package com.fooddelivery.payment_service.controller;
+package com.fooddelivery.paymentservice.controller;
 
-import com.fooddelivery.payment_service.dto.*;
-import com.fooddelivery.payment_service.service.PaymentService;
+import com.fooddelivery.paymentservice.dto.*;
+import com.fooddelivery.paymentservice.service.PaymentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;

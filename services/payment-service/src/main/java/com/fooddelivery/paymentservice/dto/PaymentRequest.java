@@ -1,6 +1,6 @@
-package com.fooddelivery.payment_service.dto;
+package com.fooddelivery.paymentservice.dto;
 
-import com.fooddelivery.payment_service.model.PaymentMethod;
+import com.fooddelivery.paymentservice.model.PaymentMethod;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
