@@ -263,7 +263,7 @@ public class OrderServiceImpl implements OrderService {
         order.setCustomerId(dto.getCustomerId());
         order.setRestaurantId(dto.getRestaurantId());
         order.setCustomerAddress(dto.getCustomerAddress());
-        order.setOrderStatus("PLACED");
+        order.setOrderStatus("PAYMENT_PENDING");
 
         // Step 2 — Validate each item and get real price from menu-service
         for (OrderItemRequestDto item : dto.getItems()) {

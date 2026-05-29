@@ -19,7 +19,7 @@ public interface MenuClient {
     void updateAvailability(@PathVariable("itemId") Long itemId,
                             @RequestParam("status") boolean status);
 
-    @PutMapping("/api/menu/{itemId}/reduce-quantity")
+    @PutMapping("/api/menu/{itemId}/reduce")
     void reduceQuantity(@PathVariable("itemId") Long itemId,
                         @RequestParam("quantity") int quantity);
 }
