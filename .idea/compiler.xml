@@ -3,39 +3,12 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-      <profile name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="delivery-service" />
-        <module name="payment-service" />
-        <module name="menu-service" />
-        <module name="eureka-server" />
-        <module name="orderservice" />
-      </profile>
-      <profile name="Annotation profile for api-gateway" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
-        </processorPath>
-        <module name="api-gateway" />
-        <module name="customer-service" />
-        <module name="auth-service" />
-      </profile>
     </annotationProcessing>
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="api-gateway" options="-parameters" />
-      <module name="auth-service" options="-parameters" />
-      <module name="customer-service" options="-parameters" />
-      <module name="delivery-service" options="-parameters" />
-      <module name="eureka-server" options="-parameters" />
-      <module name="menu-service" options="-parameters" />
-      <module name="orderservice" options="-parameters" />
-      <module name="payment-service" options="-parameters" />
-    </option>
+    <bytecodeTargetLevel>
+      <module name="api-gateway" target="21" />
+      <module name="auth-service" target="21" />
+      <module name="customer-service" target="21" />
+      <module name="eureka-server" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>

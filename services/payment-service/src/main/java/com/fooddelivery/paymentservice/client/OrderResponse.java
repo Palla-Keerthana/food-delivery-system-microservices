@@ -1,4 +1,3 @@
-// OrderResponse.java — in client package
 package com.fooddelivery.paymentservice.client;
 
 import lombok.*;
@@ -13,4 +12,5 @@ public class OrderResponse {
     private Long restaurantId;
     private String status;
     private Double totalAmount;  // ← fetch this
+    private String customerAddress;
 }
