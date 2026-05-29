@@ -1,11 +1,11 @@
-package com.fooddelivery.payment_service.service;
+package com.fooddelivery.paymentservice.service;
 
-import com.fooddelivery.payment_service.client.OrderResponse;
-import com.fooddelivery.payment_service.client.OrderServiceClient;
-import com.fooddelivery.payment_service.dto.*;
-import com.fooddelivery.payment_service.exception.*;
-import com.fooddelivery.payment_service.model.*;
-import com.fooddelivery.payment_service.repository.PaymentRepository;
+import com.fooddelivery.paymentservice.client.OrderResponse;
+import com.fooddelivery.paymentservice.client.OrderServiceClient;
+import com.fooddelivery.paymentservice.dto.*;
+import com.fooddelivery.paymentservice.exception.*;
+import com.fooddelivery.paymentservice.model.*;
+import com.fooddelivery.paymentservice.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
