@@ -1,6 +1,6 @@
-package com.fooddelivery.payment_service.service;
+package com.fooddelivery.paymentservice.service;
 
-import com.fooddelivery.payment_service.dto.*;
+import com.fooddelivery.paymentservice.dto.*;
 import java.util.List;
 
 public interface PaymentService {

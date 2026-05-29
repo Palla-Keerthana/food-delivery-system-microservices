@@ -11,9 +11,12 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class MenuResponseDto {
 
-    private Long itemId;
-    private String name;
-    private BigDecimal price;
-    private boolean available;  // ← your serviceimpl uses menuItem.isAvailable()
-    private int quantity;
+    private Long itemId;           // item ID — shown to user
+    private String name;           // item name
+    private String description;    // item description
+    private BigDecimal price;      // item price
+    private Long restaurantId;     // which restaurant
+    private boolean available;     // is item available or not
+    private int quantity;          // stock quantity
 }
+

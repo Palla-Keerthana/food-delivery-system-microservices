@@ -1,5 +1,6 @@
 package com.fooddelivery.paymentservice.client;
 
+import com.fooddelivery.paymentservice.client.OrderResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
