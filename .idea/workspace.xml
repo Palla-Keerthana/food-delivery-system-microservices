@@ -5,92 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ae9bd9d-6fc8-4045-92d3-4618e06ace11" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/dto/UpdatePasswordRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/service/AuthService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/exception/ErrorResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/payment-service/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/payment-service/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/payment-service/mvnw.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/food-delivery-system-microservices.iml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/.idea/infrastructure.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/AuthServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/AuthServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/client/AgentClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/client/AgentClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/client/CustomerClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/client/CustomerClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/client/RestaurantClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/client/RestaurantClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/dto/AgentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/dto/AgentRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/dto/CustomerRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/dto/CustomerRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/dto/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/dto/LoginRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/dto/LoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/dto/LoginResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/dto/RegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/dto/RegisterRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/dto/RestaurantRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/dto/RestaurantRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/exception/AuthenticationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/exception/AuthenticationException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/exception/InvalidRequestException.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/exception/InvalidRequestException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/exception/ResourceNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/exception/ResourceNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/service/AuthService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/service/impl/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/service/impl/AuthServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth_service/util/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/java/com/fooddelivery/auth/util/JwtUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/test/java/com/fooddelivery/auth_service/AuthServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/test/java/com/fooddelivery/auth/AuthServiceApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer_service/CustomerServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer/CustomerServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer_service/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer/controller/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer_service/dto/CustomerRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer/dto/CustomerRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer_service/dto/CustomerResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer/dto/CustomerResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer_service/entity/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer/entity/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer_service/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer_service/exception/InvalidRequestException.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer/exception/InvalidRequestException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer_service/exception/ResourceNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer/exception/ResourceNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer_service/repository/CustomerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer/repository/CustomerRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer_service/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer/service/CustomerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer_service/service/impl/CustomerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/java/com/fooddelivery/customer/service/impl/CustomerServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/customer-service/customer-service/src/test/java/com/fooddelivery/customer_service/CustomerServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/customer-service/src/test/java/com/fooddelivery/customer/CustomerServiceApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/delivery-service/delivery-service/src/main/java/com/fooddelivery/delivery/client/RestaurantServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/delivery-service/delivery-service/src/main/java/com/fooddelivery/delivery/client/RestaurantServiceClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/delivery-service/delivery-service/src/main/java/com/fooddelivery/delivery/client/UserServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/delivery-service/delivery-service/src/main/java/com/fooddelivery/delivery/client/UserServiceClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/menu-service/src/main/java/com/fooddelivery/menumodule/controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/menu-service/src/main/java/com/fooddelivery/menumodule/controller/MenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/menu-service/src/main/java/com/fooddelivery/menumodule/service/Impl/MenuServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/menu-service/src/main/java/com/fooddelivery/menumodule/service/Impl/MenuServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/order-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/client/CustomerClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/client/CustomerClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/client/MenuClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/client/MenuClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/controller/OrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/dto/request/OrderRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/dto/request/OrderRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/dto/response/CustomerResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/dto/response/CustomerResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/dto/response/MenuResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/dto/response/MenuResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/dto/response/OrderResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/dto/response/OrderResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/entity/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/repository/OrderDetailsRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/repository/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/repository/OrderRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/service/OrderService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/serviceimpl/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/src/main/java/com/fooddelivery/orderservice/serviceimpl/OrderServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/order-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/PaymentServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/PaymentServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/client/OrderResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/client/OrderResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/client/OrderServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/client/OrderServiceClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/controller/PaymentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/dto/PaymentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/dto/PaymentRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/dto/PaymentResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/dto/PaymentResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/dto/RefundResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/dto/RefundResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/exception/PaymentAlreadyDoneException.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/exception/PaymentAlreadyDoneException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/exception/PaymentNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/exception/PaymentNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/model/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/model/Payment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/model/PaymentMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/model/PaymentMethod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/model/PaymentStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/model/PaymentStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/repository/PaymentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/repository/PaymentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/service/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/service/PaymentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/payment_service/service/PaymentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/java/com/fooddelivery/paymentservice/service/PaymentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +55,7 @@
     "Spring Boot.menu-service.executor": "Run",
     "Spring Boot.order-service.executor": "Run",
     "Spring Boot.payment-service.executor": "Run",
-    "git-widget-placeholder": "Merging main",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/2499377/IdeaProjects/food-delivery-system-microservices/services/payment-service",
     "project.structure.last.edited": "SDKs",
@@ -158,26 +76,8 @@
         <option value="SpringBootApplicationConfigurationType" />
       </set>
     </option>
-    <option name="configurationStatuses">
-      <map>
-        <entry key="SpringBootApplicationConfigurationType">
-          <value>
-            <map>
-              <entry key="api-gateway" value="STOPPED" />
-              <entry key="auth-service" value="STOPPED" />
-              <entry key="customer-service" value="STOPPED" />
-              <entry key="delivery-service" value="STOPPED" />
-              <entry key="eureka-server" value="STOPPED" />
-              <entry key="menu-service" value="STOPPED" />
-              <entry key="order-service" value="STOPPED" />
-              <entry key="payment-service" value="STOPPED" />
-            </map>
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.api-gateway">
+  <component name="RunManager">
     <configuration name="api-gateway" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="api-gateway" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.fooddelivery.api_gateway.ApiGatewayApplication" />
@@ -234,16 +134,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Spring Boot.api-gateway" />
-      <item itemvalue="Spring Boot.auth-service" />
-      <item itemvalue="Spring Boot.customer-service" />
-      <item itemvalue="Spring Boot.delivery-service" />
-      <item itemvalue="Spring Boot.eureka-server" />
-      <item itemvalue="Spring Boot.menu-service" />
-      <item itemvalue="Spring Boot.payment-service" />
-      <item itemvalue="Spring Boot.order-service" />
-    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
