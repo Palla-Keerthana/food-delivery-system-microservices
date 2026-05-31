@@ -42,7 +42,8 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         // Step 3 — validate order status is PLACED
-        if (!order.getStatus().equals("PLACED")) {
+        if (!order.getStatus().equals("PLACED") &&
+            !order.getStatus().equals("PAYMENT_PENDING")) {
             throw new RuntimeException(
                     "Order is not in PLACED status. "
                             + "Current status: "

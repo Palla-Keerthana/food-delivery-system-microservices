@@ -14,6 +14,8 @@ public class DeliveryResponse {
     private Long deliveryId;
     private Long orderId;
     private Long agentId;
+    private String agentName;    // ← add
+    private String agentPhone;
     private String deliveryAddress;
     private DeliveryStatus status;
     private LocalDateTime assignedAt;

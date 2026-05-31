@@ -19,9 +19,15 @@ public class DeliveryController {
     @PostMapping("/assign/{orderId}")
     public ResponseEntity<DeliveryResponse> assignAgent(
             @PathVariable Long orderId) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(deliveryService.assignAgent(orderId));
+        return ResponseEntity.ok(
+                deliveryService.assignAgent(orderId));
+    }
+    // triggered by restaurant when food is ready
+    @PostMapping("/food-ready/{orderId}")
+    public ResponseEntity<DeliveryResponse> foodReady(
+            @PathVariable Long orderId) {
+        return ResponseEntity.ok(
+                deliveryService.assignAgent(orderId));
     }
 
     // update delivery status
@@ -73,4 +79,12 @@ public class DeliveryController {
         deliveryService.cancelDelivery(orderId);
         return ResponseEntity.ok().build();
     }
+// restaurant calls this when food ready
+//        @PostMapping("/food-ready/{orderId}")
+//        public ResponseEntity<DeliveryResponse> foodReady(
+//                @PathVariable Long orderId) {
+//            return ResponseEntity.ok(
+//                    deliveryService.assignAgent(orderId));
+//        }
+
 }

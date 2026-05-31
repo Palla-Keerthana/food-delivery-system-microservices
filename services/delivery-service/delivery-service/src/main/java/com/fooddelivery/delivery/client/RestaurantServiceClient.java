@@ -4,7 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
-@FeignClient(name = "menu-service")
+@FeignClient(name = "menu-service", url="http://localhost:8083")
 public interface RestaurantServiceClient {
 
     @GetMapping("/api/restaurants/{restaurantId}/location")
