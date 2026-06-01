@@ -1,9 +1,7 @@
 package com.fooddelivery.paymentservice.client;
 
-import com.fooddelivery.paymentservice.client.OrderResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
-import java.util.Map;
 
 @FeignClient(
         name = "order-service",
@@ -19,5 +17,5 @@ public interface OrderServiceClient {
     @PutMapping("/api/orders/{orderId}/status")
     void updateOrderStatus(
             @PathVariable Long orderId,
-            @RequestBody Map<String, String> status);
+            @RequestParam("status") String status);
 }

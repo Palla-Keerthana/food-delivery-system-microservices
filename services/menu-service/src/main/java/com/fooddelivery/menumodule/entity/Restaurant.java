@@ -38,4 +38,7 @@ public class Restaurant {
             fetch = FetchType.LAZY)
     @JsonIgnore
     private List<MenuItem> menuItems;
+    // Restaurant.java entity
+    private Double rating = 0.0;
+    private Integer totalRatings = 0;
 }

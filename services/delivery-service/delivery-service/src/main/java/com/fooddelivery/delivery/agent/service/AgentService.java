@@ -13,7 +13,8 @@ public interface AgentService {
 
     AgentResponse updateAgentDetails(Long agentId,
                                      AgentUpdateRequest request);
-
+    RatingResponse rateAgent(Long agentId,
+                             RatingRequest request);
     void updateAvailability(Long agentId, boolean isAvailable);
 
     void updateLocation(Long agentId, Double latitude,
@@ -30,4 +31,7 @@ public interface AgentService {
                                         LocalDate to);
 
     RatingResponse getRatings(Long agentId);
+
+
+
 }

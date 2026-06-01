@@ -12,10 +12,11 @@ import com.fooddelivery.delivery.exception.AgentNotFoundException;
 import com.fooddelivery.delivery.exception.DeliveryNotFoundException;
 import com.fooddelivery.delivery.exception.NoAgentAvailableException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,8 +26,12 @@ public class DeliveryServiceImpl implements DeliveryService {
     private final DeliveryRepository deliveryRepository;
     private final AgentRepository agentRepository;
     private final OrderServiceClient orderServiceClient;
+
     @Override
-    public DeliveryResponse assignAgent(Long orderId) {
+    public DeliveryResponse assignAgent(
+            Long orderId, String token) {
+
+        // Step 1 — fetch order details
         OrderResponse order;
         try {
             order = orderServiceClient.getOrder(orderId);
@@ -39,19 +44,21 @@ public class DeliveryServiceImpl implements DeliveryService {
         // Step 2 — validate order status
         if (!order.getStatus().equals("CONFIRMED") &&
                 !order.getStatus().equals("PREPARING") &&
+                !order.getStatus().equals("PAYMENT_PENDING") &&
                 !order.getStatus().equals("READY")) {
             throw new RuntimeException(
                     "Order not ready for delivery. "
                             + "Current status: "
                             + order.getStatus());
         }
-        // 1. find nearest available agent
+
+        // Step 3 — find available agent
         Agent agent = agentRepository
                 .findFirstByIsAvailableTrue()
                 .orElseThrow(() -> new NoAgentAvailableException(
                         "No agents available right now"));
 
-        // 2. create delivery record
+        // Step 4 — create delivery record
         Delivery delivery = Delivery.builder()
                 .orderId(orderId)
                 .agentId(agent.getAgentId())
@@ -59,86 +66,152 @@ public class DeliveryServiceImpl implements DeliveryService {
                 .status(DeliveryStatus.AGENT_ASSIGNED)
                 .assignedAt(LocalDateTime.now())
                 .estimatedDeliveryTime(
-                        LocalDateTime.now().plusMinutes(30))
+                        LocalDateTime.now().plusMinutes(3))
                 .build();
 
         Delivery saved = deliveryRepository.save(delivery);
 
-        // 3. mark agent as unavailable
+        // Step 5 — mark agent busy
         agent.setAvailable(false);
         agent.setCurrentDeliveryId(saved.getDeliveryId());
         agentRepository.save(agent);
 
+        // Step 6 — start auto simulation
+        simulateDeliveryFlow(
+                saved.getDeliveryId(), token);
+
         return mapToResponse(saved);
     }
 
+    @Async
+    public void simulateDeliveryFlow(
+            Long deliveryId, String token) {
+        try {
+            // wait 1 min → PICKED_UP
+            TimeUnit.MINUTES.sleep(1);
+            Delivery d = deliveryRepository
+                    .findById(deliveryId).orElse(null);
+            if (d == null) return;
+            d.setStatus(DeliveryStatus.PICKED_UP);
+            d.setPickedUpAt(LocalDateTime.now());
+            deliveryRepository.save(d);
+            System.out.println(
+                    "✅ Delivery " + deliveryId
+                            + " → PICKED_UP");
+
+            // wait 1 min → ON_THE_WAY
+            TimeUnit.MINUTES.sleep(1);
+            d.setStatus(DeliveryStatus.ON_THE_WAY);
+            d.setEstimatedDeliveryTime(
+                    LocalDateTime.now().plusMinutes(1));
+            deliveryRepository.save(d);
+            System.out.println(
+                    "✅ Delivery " + deliveryId
+                            + " → ON_THE_WAY");
+
+            // wait 1 min → DELIVERED
+            TimeUnit.MINUTES.sleep(1);
+            d.setStatus(DeliveryStatus.DELIVERED);
+            d.setDeliveredAt(LocalDateTime.now());
+            deliveryRepository.save(d);
+            freeAgent(d.getAgentId());
+            System.out.println(
+                    "✅ Delivery " + deliveryId
+                            + " → DELIVERED");
+
+            // update order → COMPLETED
+            try {
+                orderServiceClient
+                        .updateOrderStatusWithToken(
+                                d.getOrderId(),
+                                "COMPLETED",
+                                token);
+                System.out.println(
+                        "✅ Order " + d.getOrderId()
+                                + " → COMPLETED");
+            } catch (Exception e) {
+                System.out.println(
+                        "❌ Order update failed: "
+                                + e.getMessage());
+            }
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     @Override
-    public DeliveryResponse updateStatus(Long deliveryId,
-                                         DeliveryStatus status) {
+    public DeliveryResponse updateStatus(
+            Long deliveryId,
+            DeliveryStatus status) {
 
         Delivery delivery = findDeliveryById(deliveryId);
         delivery.setStatus(status);
 
         switch (status) {
             case PICKED_UP ->
-                    delivery.setPickedUpAt(LocalDateTime.now());
+                    delivery.setPickedUpAt(
+                            LocalDateTime.now());
 
-            case ON_THE_WAY -> {
-                // agent picked up and on the way
-                // estimate 10 mins from now
-                delivery.setEstimatedDeliveryTime(
-                        LocalDateTime.now().plusMinutes(10));
-            }
+            case ON_THE_WAY ->
+                    delivery.setEstimatedDeliveryTime(
+                            LocalDateTime.now().plusMinutes(10));
+
             case DELIVERED -> {
-                delivery.setDeliveredAt(LocalDateTime.now());
+                delivery.setDeliveredAt(
+                        LocalDateTime.now());
                 freeAgent(delivery.getAgentId());
 
-                // notify order-service → COMPLETED
                 try {
                     orderServiceClient.updateOrderStatus(
                             delivery.getOrderId(),
-                            Map.of("status", "COMPLETED"));
+                            "COMPLETED");
                 } catch (Exception e) {
                     System.out.println(
-                            "Could not update order status: "
+                            "Could not update order: "
                                     + e.getMessage());
                 }
             }
 
             case CANCELLED -> {
-                delivery.setCancelledAt(LocalDateTime.now());
+                delivery.setCancelledAt(
+                        LocalDateTime.now());
                 freeAgent(delivery.getAgentId());
-                // notify order-service → CANCELLED
+
                 try {
                     orderServiceClient.updateOrderStatus(
                             delivery.getOrderId(),
-                            Map.of("status", "CANCELLED"));
+                            "CANCELLED");
                 } catch (Exception e) {
                     System.out.println(
-                            "Could not update order status: "
+                            "Could not update order: "
                                     + e.getMessage());
                 }
             }
             default -> {}
         }
 
-        return mapToResponse(deliveryRepository.save(delivery));
+        return mapToResponse(
+                deliveryRepository.save(delivery));
     }
 
     @Override
-    public DeliveryResponse getDeliveryById(Long deliveryId) {
-        return mapToResponse(findDeliveryById(deliveryId));
+    public DeliveryResponse getDeliveryById(
+            Long deliveryId) {
+        return mapToResponse(
+                findDeliveryById(deliveryId));
     }
 
     @Override
     public DeliveryResponse getDeliveryByOrderId(
             Long orderId) {
+
         Delivery delivery = deliveryRepository
                 .findByOrderId(orderId)
                 .orElseThrow(() -> new DeliveryNotFoundException(
-                        "Delivery not found for order: " + orderId));
+                        "Delivery not found for order: "
+                                + orderId));
 
-        // get agent details from agents table
         String agentName = null;
         String agentPhone = null;
         try {
@@ -179,13 +252,15 @@ public class DeliveryServiceImpl implements DeliveryService {
                         DeliveryStatus.AGENT_ASSIGNED)
                 .map(this::mapToResponse)
                 .orElseThrow(() -> new DeliveryNotFoundException(
-                        "No active delivery for agent: " + agentId));
+                        "No active delivery for agent: "
+                                + agentId));
     }
 
     @Override
     public List<DeliveryResponse> getAgentDeliveryHistory(
             Long agentId) {
-        return deliveryRepository.findByAgentId(agentId)
+        return deliveryRepository
+                .findByAgentId(agentId)
                 .stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
@@ -196,16 +271,17 @@ public class DeliveryServiceImpl implements DeliveryService {
         Delivery delivery = deliveryRepository
                 .findByOrderId(orderId)
                 .orElseThrow(() -> new DeliveryNotFoundException(
-                        "Delivery not found for order: " + orderId));
+                        "Delivery not found for order: "
+                                + orderId));
+
         delivery.setStatus(DeliveryStatus.CANCELLED);
         delivery.setCancelledAt(LocalDateTime.now());
         freeAgent(delivery.getAgentId());
         deliveryRepository.save(delivery);
-        // notify order-service
+
         try {
             orderServiceClient.updateOrderStatus(
-                    orderId,
-                    Map.of("status", "CANCELLED"));
+                    orderId, "CANCELLED");
         } catch (Exception e) {
             System.out.println(
                     "Could not update order: "
@@ -216,26 +292,46 @@ public class DeliveryServiceImpl implements DeliveryService {
     // ── helpers ──────────────────────────────────────
 
     private void freeAgent(Long agentId) {
-        agentRepository.findById(agentId).ifPresent(agent -> {
-            agent.setAvailable(true);
-            agent.setCurrentDeliveryId(null);
-            agent.setTotalDeliveries(
-                    agent.getTotalDeliveries() + 1);
-            agentRepository.save(agent);
-        });
+        agentRepository.findById(agentId)
+                .ifPresent(agent -> {
+                    agent.setAvailable(true);
+                    agent.setCurrentDeliveryId(null);
+                    agent.setTotalDeliveries(
+                            agent.getTotalDeliveries() + 1);
+                    agentRepository.save(agent);
+                });
     }
 
     private Delivery findDeliveryById(Long deliveryId) {
-        return deliveryRepository.findById(deliveryId)
+        return deliveryRepository
+                .findById(deliveryId)
                 .orElseThrow(() -> new DeliveryNotFoundException(
                         "Delivery not found: " + deliveryId));
     }
 
     private DeliveryResponse mapToResponse(Delivery d) {
+        String agentName = null;
+        String agentPhone = null;
+        try {
+            Agent agent = agentRepository
+                    .findById(d.getAgentId())
+                    .orElse(null);
+            if (agent != null) {
+                agentName = agent.getName();
+                agentPhone = agent.getPhone();
+            }
+        } catch (Exception e) {
+            System.out.println(
+                    "Agent fetch failed: "
+                            + e.getMessage());
+        }
+
         return DeliveryResponse.builder()
                 .deliveryId(d.getDeliveryId())
                 .orderId(d.getOrderId())
                 .agentId(d.getAgentId())
+                .agentName(agentName)
+                .agentPhone(agentPhone)
                 .status(d.getStatus())
                 .deliveryAddress(d.getDeliveryAddress())
                 .assignedAt(d.getAssignedAt())

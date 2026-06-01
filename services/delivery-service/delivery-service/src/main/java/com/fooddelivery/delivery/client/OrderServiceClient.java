@@ -14,6 +14,11 @@ public interface OrderServiceClient {
     @PutMapping("/api/orders/{orderId}/status")
     void updateOrderStatus(
             @PathVariable Long orderId,
-            @RequestBody Map<String, String> status);
+            @RequestParam("status") String status);
 
+    @PutMapping("/api/orders/{orderId}/status")
+    void updateOrderStatusWithToken(
+            @PathVariable Long orderId,
+            @RequestParam("status") String status,
+            @RequestHeader("Authorization") String token);
 }

@@ -1,5 +1,6 @@
 package com.fooddelivery.menumodule.controller;
 
+import com.fooddelivery.menumodule.dto.request.RatingRequest;
 import com.fooddelivery.menumodule.dto.request.RestaurantPatchDto;
 import com.fooddelivery.menumodule.dto.request.RestaurantRequestDto;
 import com.fooddelivery.menumodule.dto.response.RestaurantResponseDto;
@@ -162,5 +163,15 @@ public class RestaurantController {
         log.info("Restaurant deleted successfully with ID: {}", restaurantId);
         return ResponseEntity
                 .ok("Restaurant deleted successfully!");
+    }
+
+    @PostMapping("/{restaurantId}/ratings")
+    public ResponseEntity<String> rateRestaurant(
+            @PathVariable Long restaurantId,
+            @RequestBody RatingRequest request) {
+        restaurantService.rateRestaurant(
+                restaurantId, request);
+        return ResponseEntity.ok(
+                "Restaurant rated successfully!");
     }
 }

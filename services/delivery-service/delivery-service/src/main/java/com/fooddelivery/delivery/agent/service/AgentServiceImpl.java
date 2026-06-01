@@ -10,6 +10,7 @@ import com.fooddelivery.delivery.exception.AgentNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,7 +51,45 @@ public class AgentServiceImpl implements AgentService {
             agent.setProfilePhoto(req.getProfilePhoto());
         return mapToResponse(agentRepository.save(agent));
     }
+    @Override
+    public RatingResponse rateAgent(
+            Long agentId, RatingRequest request) {
 
+        Agent agent = agentRepository
+                .findById(agentId)
+                .orElseThrow(() -> new AgentNotFoundException(
+                        "Agent not found: " + agentId));
+
+        // calculate new average
+        double currentTotal = agent.getRating()
+                * agent.getTotalRatings();
+        int newTotalRatings = agent.getTotalRatings() + 1;
+        double newAverage = (currentTotal
+                + request.getRating()) / newTotalRatings;
+
+        agent.setRating(
+                Math.round(newAverage * 10.0) / 10.0);
+        agent.setTotalRatings(newTotalRatings);
+
+        // add review to list ← add this
+        if (request.getReview() != null
+                && !request.getReview().isEmpty()) {
+            if (agent.getRecentReviews() == null) {
+                agent.setRecentReviews(new ArrayList<>());
+            }
+            agent.getRecentReviews()
+                    .add(request.getReview());
+        }
+
+        agentRepository.save(agent);
+
+        return RatingResponse.builder()
+                .agentId(agentId)
+                .averageRating(agent.getRating())
+                .totalRatings(agent.getTotalRatings())
+                .recentReviews(agent.getRecentReviews())
+                .build();
+    }
     @Override
     public void updateAvailability(Long agentId,
                                    boolean isAvailable) {

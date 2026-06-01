@@ -3,7 +3,6 @@ package com.fooddelivery.delivery.delivery.controller;
 import com.fooddelivery.delivery.delivery.dto.*;
 import com.fooddelivery.delivery.delivery.service.DeliveryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -15,22 +14,23 @@ public class DeliveryController {
 
     private final DeliveryService deliveryService;
 
-    // assign agent to order
+    // DeliveryController.java — extract and pass token
     @PostMapping("/assign/{orderId}")
     public ResponseEntity<DeliveryResponse> assignAgent(
-            @PathVariable Long orderId) {
+            @PathVariable Long orderId,
+            @RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(
-                deliveryService.assignAgent(orderId));
-    }
-    // triggered by restaurant when food is ready
-    @PostMapping("/food-ready/{orderId}")
-    public ResponseEntity<DeliveryResponse> foodReady(
-            @PathVariable Long orderId) {
-        return ResponseEntity.ok(
-                deliveryService.assignAgent(orderId));
+                deliveryService.assignAgent(orderId, token));
     }
 
-    // update delivery status
+    @PostMapping("/food-ready/{orderId}")
+    public ResponseEntity<DeliveryResponse> foodReady(
+            @PathVariable Long orderId, @RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(
+                deliveryService.assignAgent(orderId, token));
+    }
+
+    // ← removed @PreAuthorize
     @PutMapping("/{deliveryId}/status")
     public ResponseEntity<DeliveryResponse> updateStatus(
             @PathVariable Long deliveryId,
@@ -40,7 +40,6 @@ public class DeliveryController {
                         deliveryId, request.getStatus()));
     }
 
-    // get delivery by id
     @GetMapping("/{deliveryId}")
     public ResponseEntity<DeliveryResponse> getDelivery(
             @PathVariable Long deliveryId) {
@@ -48,7 +47,6 @@ public class DeliveryController {
                 deliveryService.getDeliveryById(deliveryId));
     }
 
-    // track delivery by order id
     @GetMapping("/order/{orderId}")
     public ResponseEntity<DeliveryResponse> trackDelivery(
             @PathVariable Long orderId) {
@@ -56,7 +54,6 @@ public class DeliveryController {
                 deliveryService.getDeliveryByOrderId(orderId));
     }
 
-    // get agent current delivery
     @GetMapping("/agent/{agentId}/current")
     public ResponseEntity<DeliveryResponse> getAgentCurrent(
             @PathVariable Long agentId) {
@@ -64,7 +61,6 @@ public class DeliveryController {
                 deliveryService.getAgentCurrentDelivery(agentId));
     }
 
-    // get agent delivery history
     @GetMapping("/agent/{agentId}/history")
     public ResponseEntity<List<DeliveryResponse>> getHistory(
             @PathVariable Long agentId) {
@@ -72,19 +68,11 @@ public class DeliveryController {
                 deliveryService.getAgentDeliveryHistory(agentId));
     }
 
-    // cancel delivery
     @PutMapping("/cancel/{orderId}")
     public ResponseEntity<Void> cancelDelivery(
             @PathVariable Long orderId) {
         deliveryService.cancelDelivery(orderId);
         return ResponseEntity.ok().build();
     }
-// restaurant calls this when food ready
-//        @PostMapping("/food-ready/{orderId}")
-//        public ResponseEntity<DeliveryResponse> foodReady(
-//                @PathVariable Long orderId) {
-//            return ResponseEntity.ok(
-//                    deliveryService.assignAgent(orderId));
-//        }
 
 }

@@ -102,14 +102,17 @@ public class PaymentServiceImpl implements PaymentService {
             payment.setStatus(PaymentStatus.SUCCESS);
 
             // Step 9 — notify order-service → CONFIRMED
+            // After payment SUCCESS
             try {
                 orderServiceClient.updateOrderStatus(
                         request.getOrderId(),
-                        Map.of("status", "CONFIRMED"));
+                        "CONFIRMED");
+                System.out.println(
+                        "Order status updated to CONFIRMED");
             } catch (Exception e) {
                 System.out.println(
                         "Could not update order status: "
-                                + e.getMessage());
+                                + e.getMessage());  // ← check what error prints here
             }
 
         } else {
@@ -121,7 +124,7 @@ public class PaymentServiceImpl implements PaymentService {
             try {
                 orderServiceClient.updateOrderStatus(
                         request.getOrderId(),
-                        Map.of("status", "PAYMENT_FAILED"));
+                        "PAYMENT_FAILED");
             } catch (Exception e) {
                 System.out.println(
                         "Could not update order status: "
@@ -178,7 +181,7 @@ public class PaymentServiceImpl implements PaymentService {
         try {
             orderServiceClient.updateOrderStatus(
                     orderId,
-                    Map.of("status", "CANCELLED"));
+                    "CANCELLED");
         } catch (Exception e) {
             System.out.println(
                     "Could not update order status: "

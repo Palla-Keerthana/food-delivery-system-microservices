@@ -74,7 +74,7 @@ public class Order {
     @Column(name = "restaurant_id", nullable = false)
     private Long restaurantId;
 
-    @Column(name = "customer_address")       // ← new
+    @Column(name = "customer_address", nullable=false)       // ← new
     private String customerAddress;
 
     @Column(name = "order_status")

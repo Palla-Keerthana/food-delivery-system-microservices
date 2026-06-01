@@ -1,5 +1,6 @@
 package com.fooddelivery.menumodule.service.Impl;
 
+import com.fooddelivery.menumodule.dto.request.RatingRequest;
 import com.fooddelivery.menumodule.dto.request.RestaurantPatchDto;
 import com.fooddelivery.menumodule.dto.request.RestaurantRequestDto;
 import com.fooddelivery.menumodule.dto.response.RestaurantResponseDto;
@@ -29,6 +30,30 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     private MenuItemRepository menuItemRepository;
+
+    // RestaurantServiceImpl
+    @Override
+    public void rateRestaurant(
+            Long restaurantId,
+            RatingRequest request) {
+
+        Restaurant restaurant = restaurantRepository
+                .findById(restaurantId)
+                .orElseThrow(() -> new RuntimeException(
+                        "Restaurant not found: " + restaurantId));
+
+        // calculate new average rating
+        double currentTotal = restaurant.getRating()
+                * restaurant.getTotalRatings();
+        int newTotal = restaurant.getTotalRatings() + 1;
+        double newAverage = (currentTotal
+                + request.getRating()) / newTotal;
+
+        restaurant.setRating(
+                Math.round(newAverage * 10.0) / 10.0);
+        restaurant.setTotalRatings(newTotal);
+        restaurantRepository.save(restaurant);
+    }
 
     /**
      * Validates input, converts DTO to entity and saves restaurant.

@@ -1,5 +1,6 @@
 package com.fooddelivery.menumodule.service;
 
+import com.fooddelivery.menumodule.dto.request.RatingRequest;
 import com.fooddelivery.menumodule.dto.request.RestaurantPatchDto;
 import com.fooddelivery.menumodule.dto.request.RestaurantRequestDto;
 import com.fooddelivery.menumodule.dto.response.RestaurantResponseDto;
@@ -33,6 +34,10 @@ public interface RestaurantService {
     RestaurantResponseDto getByUserId(Long userId)
             throws RestaurantNotFoundException;
 
+
+    // RestaurantService interface
+    void rateRestaurant(Long restaurantId,
+                        RatingRequest request);
     /**
      * Retrieves a single restaurant by its ID.
      *

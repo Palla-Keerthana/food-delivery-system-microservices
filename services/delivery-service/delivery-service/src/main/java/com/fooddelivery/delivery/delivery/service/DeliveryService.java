@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DeliveryService {
 
-    DeliveryResponse assignAgent(Long orderId);
+    DeliveryResponse assignAgent(Long orderId,String token);
 
     DeliveryResponse updateStatus(Long deliveryId,
                                   DeliveryStatus status);

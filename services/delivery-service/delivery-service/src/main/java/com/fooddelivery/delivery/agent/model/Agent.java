@@ -3,6 +3,8 @@ package com.fooddelivery.delivery.agent.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "agents")
@@ -34,7 +36,13 @@ public class Agent {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
+    // Agent.java — add field
+    @ElementCollection
+    @CollectionTable(
+            name = "agent_reviews",
+            joinColumns = @JoinColumn(name = "agent_id"))
+    @Column(name = "review")
+    private List<String> recentReviews = new ArrayList<>();
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();

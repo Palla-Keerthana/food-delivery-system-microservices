@@ -99,4 +99,11 @@ public class AgentController {
         return ResponseEntity.ok(
                 agentService.getRatings(agentId));
     }
+    @PostMapping("/{agentId}/ratings")
+    public ResponseEntity<RatingResponse> rateAgent(
+            @PathVariable Long agentId,
+            @RequestBody RatingRequest request) {
+        return ResponseEntity.ok(
+                agentService.rateAgent(agentId, request));
+    }
 }

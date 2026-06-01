@@ -16,7 +16,7 @@ public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long deliveryId;
-
+    private String authToken;
     private Long orderId;
     private Long agentId;
     private Long restaurantId;
