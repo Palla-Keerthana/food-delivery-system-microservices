@@ -22,7 +22,7 @@ public class OrderRequestDto {
     private Long restaurantId;
 
     @NotNull(message = "Customer Address is required")
-    private String customerAddress;          // ← new (optional, no @NotNull)
+    private String customerAddress;
 
     @NotEmpty(message = "Order must contain at least one item")
     @Valid

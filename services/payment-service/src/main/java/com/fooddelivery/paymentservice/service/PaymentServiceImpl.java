@@ -177,17 +177,6 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setRefundTime(LocalDateTime.now());
         paymentRepository.save(payment);
 
-        // notify order-service → CANCELLED
-        try {
-            orderServiceClient.updateOrderStatus(
-                    orderId,
-                    "CANCELLED");
-        } catch (Exception e) {
-            System.out.println(
-                    "Could not update order status: "
-                            + e.getMessage());
-        }
-
         return RefundResponse.builder()
                 .paymentId(payment.getPaymentId())
                 .orderId(orderId)

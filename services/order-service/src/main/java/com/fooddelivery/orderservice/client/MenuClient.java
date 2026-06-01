@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "MENU-SERVICE")
 public interface MenuClient {
 
-    // matches GET /api/menu/{itemId} in MenuController
     @GetMapping("/api/menu/{itemId}")
     MenuResponseDto getMenuItemById(@PathVariable("itemId") Long itemId);
 
-    // matches PUT /api/menu/{itemId}/availability in MenuController
     @PutMapping("/api/menu/{itemId}/availability")
     void updateAvailability(@PathVariable("itemId") Long itemId,
                             @RequestParam("status") boolean status);
@@ -22,4 +20,9 @@ public interface MenuClient {
     @PutMapping("/api/menu/{itemId}/reduce")
     void reduceQuantity(@PathVariable("itemId") Long itemId,
                         @RequestParam("quantity") int quantity);
+
+    // ← new
+    @PutMapping("/api/menu/{itemId}/restore")
+    void restoreQuantity(@PathVariable("itemId") Long itemId,
+                         @RequestParam("quantity") int quantity);
 }
