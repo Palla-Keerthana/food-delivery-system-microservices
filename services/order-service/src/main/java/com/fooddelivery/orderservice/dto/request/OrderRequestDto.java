@@ -21,6 +21,7 @@ public class OrderRequestDto {
     @NotNull(message = "Restaurant ID is required")
     private Long restaurantId;
 
+    @NotNull(message = "Customer Address is required")
     private String customerAddress;          // ← new (optional, no @NotNull)
 
     @NotEmpty(message = "Order must contain at least one item")
