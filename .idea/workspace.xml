@@ -5,39 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ae9bd9d-6fc8-4045-92d3-4618e06ace11" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/infrastructure/config-server/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/config-server/src/main/java/com/fooddelivery/configserver/ConfigServerApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/config-server/src/main/resources/api-gateway.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/config-server/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/config-server/src/main/resources/auth-service.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/config-server/src/main/resources/customer-service.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/config-server/src/main/resources/delivery-service.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/config-server/src/main/resources/eureka-server.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/config-server/src/main/resources/menu-service.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/config-server/src/main/resources/order-service.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/config-server/src/main/resources/payment-service.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/food-delivery-system-microservices.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/food-delivery-system-microservices.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/eureka-server/eureka-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/eureka-server/eureka-server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/eureka-server/eureka-server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/eureka-server/eureka-server/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth-service/auth-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/customer-service/customer-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/customer-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/customer-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/delivery-service/delivery-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/services/delivery-service/delivery-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/delivery-service/delivery-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/services/delivery-service/delivery-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/menu-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/services/menu-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/menu-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/services/menu-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/order-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/order-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/payment-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/services/payment-service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/src/main/java/com/fooddelivery/api_gateway/ApiGatewayApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/src/main/java/com/fooddelivery/api_gateway/filter/JwtAuthFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/src/main/java/com/fooddelivery/api_gateway/util/JwtUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/api-gateway/api-gateway/src/test/java/com/fooddelivery/api_gateway/ApiGatewayApplicationTests.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +81,7 @@
     "Spring Boot.menu-service.executor": "Run",
     "Spring Boot.order-service.executor": "Run",
     "Spring Boot.payment-service.executor": "Run",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "keerthana-branch",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/2499383/Downloads/food-delivery-system-microservices",
     "project.structure.last.edited": "Modules",
@@ -133,13 +115,6 @@
               <entry key="EurekaServerApplication" value="STOPPED" />
               <entry key="PaymentServiceApplication" value="FAILED" />
               <entry key="api-gateway" value="STOPPED" />
-              <entry key="auth-service" value="STOPPED" />
-              <entry key="customer-service" value="STOPPED" />
-              <entry key="delivery-service" value="STOPPED" />
-              <entry key="eureka-server" value="STOPPED" />
-              <entry key="menu-service" value="STOPPED" />
-              <entry key="order-service" value="STOPPED" />
-              <entry key="payment-service" value="STOPPED" />
             </map>
           </value>
         </entry>
@@ -147,6 +122,17 @@
     </option>
   </component>
   <component name="RunManager" selected="Spring Boot.delivery-service">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="config-server" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="config-server" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
     <configuration name="api-gateway" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="api-gateway" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.fooddelivery.api_gateway.ApiGatewayApplication" />
