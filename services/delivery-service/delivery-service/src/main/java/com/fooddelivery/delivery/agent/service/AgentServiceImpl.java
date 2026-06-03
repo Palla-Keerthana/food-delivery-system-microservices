@@ -47,8 +47,6 @@ public class AgentServiceImpl implements AgentService {
         if (req.getPhone() != null)
             agent.setPhone(req.getPhone());
 
-        if (req.getProfilePhoto() != null)
-            agent.setProfilePhoto(req.getProfilePhoto());
         return mapToResponse(agentRepository.save(agent));
     }
     @Override
@@ -98,17 +96,6 @@ public class AgentServiceImpl implements AgentService {
         agentRepository.save(agent);
     }
 
-    @Override
-    public void updateLocation(Long agentId,
-                               Double latitude,
-                               Double longitude) {
-        Agent agent = findAgentById(agentId);
-        agent.setCurrentLatitude(latitude);
-        agent.setCurrentLongitude(longitude);
-        agent.setLocationUpdatedAt(
-                java.time.LocalDateTime.now());
-        agentRepository.save(agent);
-    }
 
     @Override
     public DeliveryResponse getCurrentDelivery(Long agentId) {
@@ -171,8 +158,6 @@ public class AgentServiceImpl implements AgentService {
                 .name(agent.getName())
                 .phone(agent.getPhone())
                 .isAvailable(agent.isAvailable())
-                .currentLatitude(agent.getCurrentLatitude())
-                .currentLongitude(agent.getCurrentLongitude())
                 .totalDeliveries(agent.getTotalDeliveries())
                 .rating(agent.getRating())
                 .totalEarnings(agent.getTotalEarnings())

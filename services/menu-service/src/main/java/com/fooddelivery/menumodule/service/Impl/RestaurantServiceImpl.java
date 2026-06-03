@@ -166,30 +166,51 @@ public class RestaurantServiceImpl implements RestaurantService {
      * @throws RestaurantNotFoundException if restaurant not found
      */
     @Override
-    public void updateRestaurant(Long restaurantId, RestaurantRequestDto dto)
-            throws InvalidRequestException, RestaurantNotFoundException {
-        log.info("Updating restaurant with ID: {}", restaurantId);
+    public void updateRestaurant(Long restaurantId,
+                                 RestaurantRequestDto dto)
+            throws InvalidRequestException,
+            RestaurantNotFoundException {
+
+        log.info("Updating restaurant: {}", restaurantId);
 
         if (restaurantId == null || restaurantId <= 0) {
-            log.warn("Invalid restaurant ID: {}", restaurantId);
-            throw new InvalidRequestException("Invalid restaurant ID.");
+            log.warn("Invalid restaurant ID: {}",
+                    restaurantId);
+            throw new InvalidRequestException(
+                    "Invalid restaurant ID.");
         }
 
-        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+        Restaurant restaurant = restaurantRepository
+                .findById(restaurantId)
                 .orElseThrow(() -> {
-                    log.error("Restaurant not found with ID: {}", restaurantId);
+                    log.error("Restaurant not found: {}",
+                            restaurantId);
                     return new RestaurantNotFoundException(
-                            "Restaurant not found with ID: " + restaurantId);
+                            "Restaurant not found with ID: "
+                                    + restaurantId);
                 });
 
-        restaurant.setRestaurantName(dto.getRestaurantName());
+        // ✅ Check ownership!
+        if (dto.getUserId() != null &&
+                !restaurant.getUserId()
+                        .equals(dto.getUserId())) {
+            log.warn("Unauthorized! User {} tried to " +
+                            "update restaurant owned by {}",
+                    dto.getUserId(),
+                    restaurant.getUserId());
+            throw new InvalidRequestException(
+                    "You don't own this restaurant!");
+        }
+
+        restaurant.setRestaurantName(
+                dto.getRestaurantName());
         restaurant.setLocation(dto.getLocation());
-        restaurant.setContactNumber(dto.getContactNumber());
+        restaurant.setContactNumber(
+                dto.getContactNumber());
         restaurantRepository.save(restaurant);
 
-        log.info("Restaurant updated successfully with ID: {}", restaurantId);
+        log.info("Restaurant updated: {}", restaurantId);
     }
-
     /**
      * Partially updates restaurant with only provided fields.
      * Null fields are ignored — not updated.
@@ -242,22 +263,34 @@ public class RestaurantServiceImpl implements RestaurantService {
      * @throws RestaurantNotFoundException if restaurant not found
      */
     @Override
-    public void deleteRestaurant(Long restaurantId)
-            throws InvalidRequestException, RestaurantNotFoundException {
-        log.info("Deleting restaurant with ID: {}", restaurantId);
+    public void deleteRestaurant(Long restaurantId,
+                                 Long userId)
+            throws InvalidRequestException,
+            RestaurantNotFoundException {
+
+        log.info("Deleting restaurant: {}", restaurantId);
 
         if (restaurantId == null || restaurantId <= 0) {
-            log.warn("Invalid restaurant ID: {}", restaurantId);
-            throw new InvalidRequestException("Invalid restaurant ID.");
+            throw new InvalidRequestException(
+                    "Invalid restaurant ID.");
         }
-        if (!restaurantRepository.existsById(restaurantId)) {
-            log.error("Restaurant not found with ID: {}", restaurantId);
-            throw new RestaurantNotFoundException(
-                    "Restaurant not found with ID: " + restaurantId);
+
+        Restaurant restaurant = restaurantRepository
+                .findById(restaurantId)
+                .orElseThrow(() ->
+                        new RestaurantNotFoundException(
+                                "Restaurant not found with ID: "
+                                        + restaurantId));
+
+        // ✅ Check ownership!
+        if (userId != null &&
+                !restaurant.getUserId().equals(userId)) {
+            throw new InvalidRequestException(
+                    "You don't own this restaurant!");
         }
 
         restaurantRepository.deleteById(restaurantId);
-        log.info("Restaurant deleted successfully with ID: {}", restaurantId);
+        log.info("Restaurant deleted: {}", restaurantId);
     }
 
     /**

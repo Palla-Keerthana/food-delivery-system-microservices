@@ -9,5 +9,4 @@ import lombok.*;
 public class AgentUpdateRequest {
 
     private String phone;
-    private String profilePhoto;
 }

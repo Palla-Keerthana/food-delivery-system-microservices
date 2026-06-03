@@ -41,10 +41,19 @@ public class MenuController {
             description = "Restaurant owner adds a new item to menu")
     @PostMapping
     public ResponseEntity<String> addMenuItem(
-            @Valid @RequestBody MenuRequestDto dto) {
-        log.info("POST /api/menu - Adding menu item: {}", dto.getName());
+            @Valid @RequestBody MenuRequestDto dto,
+            // ✅ Get userId from Gateway header!
+            @RequestHeader(value = "X-User-Id",
+                    required = false) String userId) {
+
+        log.info("POST /api/menu - Adding: {}", dto.getName());
+
+        // ✅ Set userId from header!
+        if (userId != null && !userId.isEmpty()) {
+            dto.setUserId(Long.parseLong(userId));
+        }
+
         menuService.addMenuItem(dto);
-        log.info("Menu item added successfully: {}", dto.getName());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body("Menu item added successfully!");

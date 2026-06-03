@@ -298,6 +298,12 @@ public class DeliveryServiceImpl implements DeliveryService {
                     agent.setCurrentDeliveryId(null);
                     agent.setTotalDeliveries(
                             agent.getTotalDeliveries() + 1);
+                    // add earnings per delivery ← add this
+                    // fixed earning per delivery = 50.0
+                    double earningPerDelivery = 50.0;
+                    agent.setTotalEarnings(
+                            agent.getTotalEarnings()
+                                    + earningPerDelivery);
                     agentRepository.save(agent);
                 });
     }

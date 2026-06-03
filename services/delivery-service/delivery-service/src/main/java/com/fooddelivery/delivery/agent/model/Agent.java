@@ -1,11 +1,9 @@
 package com.fooddelivery.delivery.agent.model;
-
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 @Entity
 @Table(name = "agents")
 @Getter
@@ -14,35 +12,29 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Agent {
-
     @Id
-    private Long agentId;        // same as userId from auth-service
-
+    private Long agentId;
     private String name;
     private String phone;
-    private String profilePhoto;
-
+    // ❌ removed profilePhoto
+    // ❌ removed currentLatitude
+    // ❌ removed currentLongitude
+    // ❌ removed locationUpdatedAt
     private boolean isAvailable;
-    private Long currentDeliveryId;  // null = free
-
-    private Double currentLatitude;
-    private Double currentLongitude;
-    private LocalDateTime locationUpdatedAt;
-
+    private Long currentDeliveryId;
     private Integer totalDeliveries;
     private Double totalEarnings;
     private Double rating;
     private Integer totalRatings;
-
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    // Agent.java — add field
     @ElementCollection
     @CollectionTable(
             name = "agent_reviews",
             joinColumns = @JoinColumn(name = "agent_id"))
     @Column(name = "review")
-    private List<String> recentReviews = new ArrayList<>();
+    private List<String> recentReviews
+            = new ArrayList<>();
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();
@@ -51,9 +43,8 @@ public class Agent {
         totalEarnings = 0.0;
         rating = 0.0;
         totalRatings = 0;
-        isAvailable = false;
+        isAvailable = true;  // ← online by default
     }
-
     @PreUpdate
     public void onUpdate() {
         updatedAt = LocalDateTime.now();

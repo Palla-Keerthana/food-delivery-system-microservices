@@ -45,29 +45,46 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public void addMenuItem(MenuRequestDto dto)
-            throws InvalidRequestException, RestaurantNotFoundException {
+            throws InvalidRequestException,
+            RestaurantNotFoundException {
         log.info("Adding menu item: {}", dto.getName());
 
-        if (dto.getName() == null || dto.getName().trim().isEmpty()) {
-            log.warn("Item name is empty!");
-            throw new InvalidRequestException("Item name cannot be empty.");
+        if (dto.getName() == null ||
+                dto.getName().trim().isEmpty()) {
+            throw new InvalidRequestException(
+                    "Item name cannot be empty.");
         }
-        if (dto.getPrice() == null || dto.getPrice().doubleValue() <= 0) {
-            log.warn("Invalid price: {}", dto.getPrice());
-            throw new InvalidRequestException("Price must be greater than zero.");
+        if (dto.getPrice() == null ||
+                dto.getPrice().doubleValue() <= 0) {
+            throw new InvalidRequestException(
+                    "Price must be greater than zero.");
         }
         if (dto.getRestaurantId() == null) {
-            log.warn("Restaurant ID is null!");
-            throw new InvalidRequestException("Restaurant ID is required.");
+            throw new InvalidRequestException(
+                    "Restaurant ID is required.");
         }
 
         Restaurant restaurant = restaurantRepository
                 .findById(dto.getRestaurantId())
                 .orElseThrow(() -> {
-                    log.error("Restaurant not found with ID: {}", dto.getRestaurantId());
+                    log.error("Restaurant not found: {}",
+                            dto.getRestaurantId());
                     return new RestaurantNotFoundException(
-                            "Restaurant not found with ID: " + dto.getRestaurantId());
+                            "Restaurant not found with ID: "
+                                    + dto.getRestaurantId());
                 });
+
+        // ✅ Check ownership!
+        if (dto.getUserId() != null &&
+                !restaurant.getUserId()
+                        .equals(dto.getUserId())) {
+            log.warn("Unauthorized! User {} tried to add " +
+                            "item to restaurant owned by {}",
+                    dto.getUserId(),
+                    restaurant.getUserId());
+            throw new InvalidRequestException(
+                    "You don't own this restaurant!");
+        }
 
         MenuItem item = new MenuItem();
         item.setName(dto.getName());
@@ -78,7 +95,7 @@ public class MenuServiceImpl implements MenuService {
         item.setQuantity(dto.getQuantity());
         menuItemRepository.save(item);
 
-        log.info("Menu item saved successfully: {}", dto.getName());
+        log.info("Menu item saved: {}", dto.getName());
     }
 
     /**

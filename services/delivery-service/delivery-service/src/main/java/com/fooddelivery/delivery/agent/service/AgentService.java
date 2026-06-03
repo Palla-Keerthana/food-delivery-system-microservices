@@ -17,8 +17,6 @@ public interface AgentService {
                              RatingRequest request);
     void updateAvailability(Long agentId, boolean isAvailable);
 
-    void updateLocation(Long agentId, Double latitude,
-                        Double longitude);
 
     DeliveryResponse getCurrentDelivery(Long agentId);
 

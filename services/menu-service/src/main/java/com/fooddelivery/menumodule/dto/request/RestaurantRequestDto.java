@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RestaurantRequestDto {
 
-    @NotNull(message = "User ID is required")
-    private Long userId;
+     private Long userId;
 
     @NotBlank(message = "Restaurant name cannot be empty")
     private String restaurantName;

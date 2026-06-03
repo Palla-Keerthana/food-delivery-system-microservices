@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -20,18 +19,11 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
     @Autowired
     private JwtUtil jwtUtil;
 
-    // ✅ Public routes — no token needed
     private static final List<String> PUBLIC_ROUTES = List.of(
             "/auth/register",
             "/auth/login",
-            "/api/menu/available",  // ← customers can view without login
-            "/api/restaurants"      // ← anyone can view restaurants
-    );
-
-    // ✅ Restaurant Owner only routes
-    private static final List<String> RESTAURANT_OWNER_ROUTES = List.of(
-            "/api/restaurants",     // POST only
-            "/api/menu"             // POST, PUT, DELETE only
+            "/api/menu/available",
+            "/api/restaurants"
     );
 
     @Override
@@ -41,12 +33,12 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
         String path = request.getURI().getPath();
         String method = request.getMethod().name();
 
-        // ✅ Allow GET requests to public routes
+        // ✅ Allow public GET routes
         if (isPublicGetRoute(path, method)) {
             return chain.filter(exchange);
         }
 
-        // ✅ Allow auth routes always
+        // ✅ Allow auth routes
         if (isAuthRoute(path)) {
             return chain.filter(exchange);
         }
@@ -55,7 +47,8 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
         String authHeader = request.getHeaders()
                 .getFirst("Authorization");
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null ||
+                !authHeader.startsWith("Bearer ")) {
             return unauthorizedResponse(exchange,
                     "Missing or invalid Authorization header");
         }
@@ -72,8 +65,11 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
             String email = jwtUtil.extractEmail(token);
             String role = jwtUtil.extractRole(token);
 
+            // ✅ Extract userId from token
+            String userId = jwtUtil.extractUserId(token);
+
+
             // ✅ Role based access control
-            // Only RESTAURANT_OWNER can POST/PUT/DELETE menu and restaurant
             if (isRestaurantOwnerRoute(path, method)) {
                 if (!role.equals("RESTAURANT_OWNER")) {
                     return forbiddenResponse(exchange,
@@ -90,19 +86,21 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
                 }
             }
 
-            // ✅ Only AGENT can update delivery status
+            // ✅ Only AGENT can update delivery
             if (path.startsWith("/api/delivery") &&
                     method.equals("PUT")) {
                 if (!role.equals("AGENT")) {
                     return forbiddenResponse(exchange,
-                            "Access denied! Only AGENT can update delivery status.");
+                            "Access denied! Only AGENT can update delivery.");
                 }
             }
 
-            // ✅ Add user info to headers
+            // ✅ Pass user info to downstream services
             ServerHttpRequest modifiedRequest = request.mutate()
                     .header("X-User-Email", email)
                     .header("X-User-Role", role)
+                    .header("X-User-Id", userId != null
+                            ? userId : "") // ✅ Added userId!
                     .build();
 
             return chain.filter(
@@ -116,7 +114,6 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
         }
     }
 
-    // ✅ Check if public GET route
     private boolean isPublicGetRoute(String path, String method) {
         if (!method.equals("GET")) return false;
         return path.equals("/api/menu/available") ||
@@ -124,60 +121,49 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
                 path.startsWith("/api/menu/restaurant/");
     }
 
-    // ✅ Check if auth route
     private boolean isAuthRoute(String path) {
         return path.equals("/auth/register") ||
                 path.equals("/auth/login");
     }
 
-    // ✅ Check if restaurant owner only route
-    private boolean isRestaurantOwnerRoute(String path, String method) {
-        // POST /api/restaurants → register restaurant
+    private boolean isRestaurantOwnerRoute(
+            String path, String method) {
         if (path.equals("/api/restaurants") &&
                 method.equals("POST")) return true;
-
-        // PUT /api/restaurants/{id} → update restaurant
         if (path.startsWith("/api/restaurants/") &&
                 method.equals("PUT")) return true;
-
-        // DELETE /api/restaurants/{id} → delete restaurant
         if (path.startsWith("/api/restaurants/") &&
                 method.equals("DELETE")) return true;
-
-        // POST /api/menu → add menu item
         if (path.equals("/api/menu") &&
                 method.equals("POST")) return true;
-
-        // PUT /api/menu/{id} → update menu item
         if (path.startsWith("/api/menu/") &&
                 method.equals("PUT")) return true;
-
-        // DELETE /api/menu/{id} → delete menu item
         if (path.startsWith("/api/menu/") &&
                 method.equals("DELETE")) return true;
-
         return false;
     }
 
-    // ✅ 401 Unauthorized response
     private Mono<Void> unauthorizedResponse(
             ServerWebExchange exchange, String message) {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(HttpStatus.UNAUTHORIZED);
-        response.getHeaders().add("Content-Type", "application/json");
+        response.getHeaders()
+                .add("Content-Type", "application/json");
         var buffer = response.bufferFactory()
-                .wrap(("{\"error\": \"" + message + "\"}").getBytes());
+                .wrap(("{\"error\": \"" + message + "\"}")
+                        .getBytes());
         return response.writeWith(Mono.just(buffer));
     }
 
-    // ✅ 403 Forbidden response
     private Mono<Void> forbiddenResponse(
             ServerWebExchange exchange, String message) {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(HttpStatus.FORBIDDEN);
-        response.getHeaders().add("Content-Type", "application/json");
+        response.getHeaders()
+                .add("Content-Type", "application/json");
         var buffer = response.bufferFactory()
-                .wrap(("{\"error\": \"" + message + "\"}").getBytes());
+                .wrap(("{\"error\": \"" + message + "\"}")
+                        .getBytes());
         return response.writeWith(Mono.just(buffer));
     }
 

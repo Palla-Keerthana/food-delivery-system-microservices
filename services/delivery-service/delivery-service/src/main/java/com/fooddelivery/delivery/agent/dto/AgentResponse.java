@@ -15,17 +15,10 @@ public class AgentResponse {
     private Long agentId;
     private String name;
     private String phone;
-//    private String vehicleType;
-//    private String vehicleNumber;
-    @JsonProperty("isAvailable")
     private boolean isAvailable;
-    @JsonProperty("isAvailable")   // ← shows "isAvailable"
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-    private Double currentLatitude;
-    private Double currentLongitude;
+    private Long currentDeliveryId;
     private Integer totalDeliveries;
-    private Double rating;
     private Double totalEarnings;
+    private Double rating;
+    private Integer totalRatings;
 }

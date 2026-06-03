@@ -42,11 +42,19 @@ public class RestaurantController {
             description = "Registers a new restaurant for a restaurant owner")
     @PostMapping
     public ResponseEntity<String> registerRestaurant(
-            @Valid @RequestBody RestaurantRequestDto dto) {
-        log.info("POST /api/restaurants - Registering restaurant: {}",
+            @Valid @RequestBody RestaurantRequestDto dto,
+            // ✅ Get userId from Gateway header!
+            @RequestHeader(value = "X-User-Id",
+                    required = false) String userId) {
+
+        // ✅ Set userId from header!
+        if (userId != null && !userId.isEmpty()) {
+            dto.setUserId(Long.parseLong(userId));
+        }
+
+        log.info("POST /api/restaurants - Registering: {}",
                 dto.getRestaurantName());
         restaurantService.registerRestaurant(dto);
-        log.info("Restaurant registered successfully: {}", dto.getRestaurantName());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body("Restaurant registered successfully!");
@@ -115,10 +123,20 @@ public class RestaurantController {
     @PutMapping("/{restaurantId}")
     public ResponseEntity<String> updateRestaurant(
             @PathVariable Long restaurantId,
-            @Valid @RequestBody RestaurantRequestDto dto) {
-        log.info("PUT /api/restaurants/{} - Updating restaurant", restaurantId);
-        restaurantService.updateRestaurant(restaurantId, dto);
-        log.info("Restaurant updated successfully with ID: {}", restaurantId);
+            @Valid @RequestBody RestaurantRequestDto dto,
+            // ✅ Get userId from Gateway header!
+            @RequestHeader(value = "X-User-Id",
+                    required = false) String userId) {
+
+        log.info("PUT /api/restaurants/{}", restaurantId);
+
+        // ✅ Set userId from header!
+        if (userId != null && !userId.isEmpty()) {
+            dto.setUserId(Long.parseLong(userId));
+        }
+
+        restaurantService.updateRestaurant(
+                restaurantId, dto);
         return ResponseEntity
                 .ok("Restaurant updated successfully!");
     }
@@ -155,12 +173,23 @@ public class RestaurantController {
      */
     @Operation(summary = "Delete restaurant",
             description = "Permanently deletes a restaurant and all its menu items")
+
     @DeleteMapping("/{restaurantId}")
     public ResponseEntity<String> deleteRestaurant(
-            @PathVariable Long restaurantId) {
-        log.info("DELETE /api/restaurants/{} - Deleting restaurant", restaurantId);
-        restaurantService.deleteRestaurant(restaurantId);
-        log.info("Restaurant deleted successfully with ID: {}", restaurantId);
+            @PathVariable Long restaurantId,
+            // ✅ Get userId from header!
+            @RequestHeader(value = "X-User-Id",
+                    required = false) String userId) {
+
+        log.info("DELETE /api/restaurants/{}",
+                restaurantId);
+
+        Long userIdLong = (userId != null &&
+                !userId.isEmpty())
+                ? Long.parseLong(userId) : null;
+
+        restaurantService.deleteRestaurant(
+                restaurantId, userIdLong);
         return ResponseEntity
                 .ok("Restaurant deleted successfully!");
     }

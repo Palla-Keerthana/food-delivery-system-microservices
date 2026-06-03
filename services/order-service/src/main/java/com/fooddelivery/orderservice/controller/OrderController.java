@@ -24,7 +24,6 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    // POST /api/orders
     @PostMapping
     public ResponseEntity<OrderResponseDto> placeOrder(
             @Valid @RequestBody OrderRequestDto request) {
@@ -33,7 +32,6 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // GET /api/orders/{orderId}
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderResponseDto> getOrderById(
             @PathVariable @Min(value = 1, message = "Order ID must be greater than 0") Long orderId) {
@@ -41,7 +39,6 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrderById(orderId));
     }
 
-    // GET /api/orders/customer/{customerId}
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List<OrderResponseDto>> getOrdersByCustomer(
             @PathVariable @Min(value = 1, message = "Customer ID must be greater than 0") Long customerId) {
@@ -49,7 +46,6 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrdersByCustomer(customerId));
     }
 
-    // PUT /api/orders/{orderId}/status?status=PREPARING
     @PutMapping("/{orderId}/status")
     public ResponseEntity<OrderResponseDto> updateOrderStatus(
             @PathVariable @Min(value = 1, message = "Order ID must be greater than 0") Long orderId,
@@ -59,7 +55,6 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrderById(orderId));
     }
 
-    // GET /api/orders/{orderId}/status
     @GetMapping("/{orderId}/status")
     public ResponseEntity<String> getOrderStatus(
             @PathVariable @Min(value = 1, message = "Order ID must be greater than 0") Long orderId) {
@@ -67,11 +62,18 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrderStatus(orderId));
     }
 
-    // GET /api/orders/restaurant/{restaurantId}
     @GetMapping("/restaurant/{restaurantId}")
     public ResponseEntity<List<OrderResponseDto>> getOrdersByRestaurant(
             @PathVariable @Min(value = 1, message = "Restaurant ID must be greater than 0") Long restaurantId) {
         log.info("Get orders request received for restaurantId: {}", restaurantId);
         return ResponseEntity.ok(orderService.getOrdersByRestaurant(restaurantId));
+    }
+
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<String> cancelOrder(
+            @PathVariable @Min(value = 1, message = "Order ID must be greater than 0") Long orderId) {
+        log.info("Cancel order request received for orderId: {}", orderId);
+        orderService.cancelOrder(orderId);
+        return ResponseEntity.ok("Order cancelled successfully");
     }
 }

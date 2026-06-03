@@ -65,7 +65,6 @@ public interface RestaurantService {
      */
     void updateRestaurant(Long restaurantId, RestaurantRequestDto dto)
             throws InvalidRequestException, RestaurantNotFoundException;
-
     /**
      * Partially updates a restaurant with only provided fields.
      *
@@ -84,6 +83,10 @@ public interface RestaurantService {
      * @throws InvalidRequestException     if ID is invalid
      * @throws RestaurantNotFoundException if restaurant not found
      */
-    void deleteRestaurant(Long restaurantId)
-            throws InvalidRequestException, RestaurantNotFoundException;
+    void deleteRestaurant(Long restaurantId,
+                          Long userId)
+            throws InvalidRequestException,
+            RestaurantNotFoundException;
+
+
 }

@@ -44,18 +44,6 @@ public class AgentController {
         return ResponseEntity.ok().build();
     }
 
-    // update GPS location
-    @PutMapping("/{agentId}/location")
-    public ResponseEntity<Void> updateLocation(
-            @PathVariable Long agentId,
-            @RequestBody AgentLocationRequest request) {
-        agentService.updateLocation(
-                agentId,
-                request.getLatitude(),
-                request.getLongitude());
-        return ResponseEntity.ok().build();
-    }
-
     // get current active delivery
     @GetMapping("/{agentId}/current-delivery")
     public ResponseEntity<DeliveryResponse> getCurrentDelivery(
