@@ -373,6 +373,33 @@ public class MenuServiceImpl implements MenuService {
     }
 
 
+    @Override
+    public void restoreQuantity(Long itemId, int quantity)
+            throws InvalidRequestException, MenuItemNotFoundException {
+        log.info("Restoring quantity for item ID: {} by {}", itemId, quantity);
+
+        if (itemId == null || itemId <= 0) {
+            log.warn("Invalid item ID: {}", itemId);
+            throw new InvalidRequestException("Invalid item ID.");
+        }
+        if (quantity <= 0) {
+            log.warn("Invalid quantity: {}", quantity);
+            throw new InvalidRequestException("Quantity must be greater than zero.");
+        }
+
+        MenuItem item = menuItemRepository.findById(itemId)
+                .orElseThrow(() -> {
+                    log.error("Menu item not found with ID: {}", itemId);
+                    return new MenuItemNotFoundException(
+                            "Menu item not found with ID: " + itemId);
+                });
+
+        item.setQuantity(item.getQuantity() + quantity);
+        item.setAvailable(true);
+        menuItemRepository.save(item);
+        log.info("Stock restored for itemId={} by qty={}", itemId, quantity);
+    }
+
     /**
      * Converts MenuItem entity to MenuResponseDto.
      *

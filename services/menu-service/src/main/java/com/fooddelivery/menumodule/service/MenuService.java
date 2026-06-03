@@ -109,4 +109,15 @@ public interface MenuService {
      */
     void reduceQuantity(Long itemId, int quantity)
             throws InvalidRequestException;
+
+    /**
+     * Restores stock quantity after order is cancelled.
+     *
+     * @param itemId   the ID of menu item
+     * @param quantity quantity to restore
+     * @throws InvalidRequestException   if ID or quantity invalid
+     * @throws MenuItemNotFoundException if item not found
+     */
+    void restoreQuantity(Long itemId, int quantity)
+            throws InvalidRequestException, MenuItemNotFoundException;
 }
