@@ -1,4 +1,4 @@
-package com.fooddelivery.orderservice.serviceimpl;
+package com.fooddelivery.orderservice.service;
 
 import com.fooddelivery.orderservice.dto.request.OrderRequestDto;
 import com.fooddelivery.orderservice.dto.response.OrderResponseDto;
