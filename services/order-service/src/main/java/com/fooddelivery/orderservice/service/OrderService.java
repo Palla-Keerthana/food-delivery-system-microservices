@@ -2,6 +2,7 @@ package com.fooddelivery.orderservice.service;
 
 import com.fooddelivery.orderservice.dto.request.OrderRequestDto;
 import com.fooddelivery.orderservice.dto.response.OrderResponseDto;
+import com.fooddelivery.orderservice.exception.InvalidRequestException;
 import com.fooddelivery.orderservice.exception.ResourceNotFoundException;
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface OrderService {
 
     // Get only the status string of an order
     String getOrderStatus(Long orderId) throws ResourceNotFoundException;
+
+    void cancelOrder(Long orderId) throws ResourceNotFoundException, InvalidRequestException;
 }

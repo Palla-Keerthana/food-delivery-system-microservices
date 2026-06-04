@@ -218,4 +218,25 @@ public class MenuController {
         return ResponseEntity.ok("Quantity reduced successfully!");
 
     }
+
+
+    /**
+     * Restores stock quantity after order is cancelled.
+     * Called by Order Service via Feign Client.
+     *
+     * @param itemId   the ID of menu item
+     * @param quantity quantity to restore
+     * @return 200 OK on success
+     */
+    @Operation(summary = "Restore item quantity",
+            description = "Called by Order Service after order cancelled")
+    @PutMapping("/{itemId}/restore")
+    public ResponseEntity<String> restoreQuantity(
+            @PathVariable Long itemId,
+            @RequestParam("quantity") int quantity) {
+        log.info("PUT /api/menu/{}/restore - Restoring quantity by {}", itemId, quantity);
+        menuService.restoreQuantity(itemId, quantity);
+        log.info("Quantity restored successfully for item ID: {}", itemId);
+        return ResponseEntity.ok("Quantity restored successfully!");
+    }
 }
