@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 @FeignClient(
         name = "order-service",
-        url = "http://localhost:8084")  // remove when Eureka ready
+        url = "http://localhost:8084")
 public interface OrderServiceClient {
 
     // get order details → fetch amount

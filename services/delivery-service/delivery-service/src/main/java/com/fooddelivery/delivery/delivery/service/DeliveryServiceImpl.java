@@ -61,7 +61,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         // Step 4 — create delivery record
         Delivery delivery = Delivery.builder()
                 .orderId(orderId)
-                .agentId(agent.getAgentId())
+                .agent(agent)
                 .deliveryAddress(order.getCustomerAddress())
                 .status(DeliveryStatus.AGENT_ASSIGNED)
                 .assignedAt(LocalDateTime.now())
@@ -298,6 +298,13 @@ public class DeliveryServiceImpl implements DeliveryService {
                     agent.setCurrentDeliveryId(null);
                     agent.setTotalDeliveries(
                             agent.getTotalDeliveries() + 1);
+
+                    double earningPerDelivery = 50.0;
+                    agent.setTotalEarnings(
+                            agent.getTotalEarnings()
+                                    + earningPerDelivery);
+
+
                     agentRepository.save(agent);
                 });
     }
@@ -312,18 +319,26 @@ public class DeliveryServiceImpl implements DeliveryService {
     private DeliveryResponse mapToResponse(Delivery d) {
         String agentName = null;
         String agentPhone = null;
-        try {
-            Agent agent = agentRepository
-                    .findById(d.getAgentId())
-                    .orElse(null);
-            if (agent != null) {
-                agentName = agent.getName();
-                agentPhone = agent.getPhone();
+
+        // first try from relationship
+        if (d.getAgent() != null) {
+            agentName = d.getAgent().getName();
+            agentPhone = d.getAgent().getPhone();
+        } else if (d.getAgentId() != null) {
+            // fallback to repository
+            try {
+                Agent agent = agentRepository
+                        .findById(d.getAgentId())
+                        .orElse(null);
+                if (agent != null) {
+                    agentName = agent.getName();
+                    agentPhone = agent.getPhone();
+                }
+            } catch (Exception e) {
+                System.out.println(
+                        "Agent fetch failed: "
+                                + e.getMessage());
             }
-        } catch (Exception e) {
-            System.out.println(
-                    "Agent fetch failed: "
-                            + e.getMessage());
         }
 
         return DeliveryResponse.builder()

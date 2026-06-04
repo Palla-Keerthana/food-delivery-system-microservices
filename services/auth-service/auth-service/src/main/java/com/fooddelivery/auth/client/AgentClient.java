@@ -5,9 +5,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "delivery-service")
+@FeignClient(name = "DELIVERY-SERVICE", url = "http://localhost:8086")
 public interface AgentClient {
 
-    @PostMapping("/api/agents/register")
+    @PostMapping("/api/agents/create")
     void registerAgent(@RequestBody AgentRequest request);
 }

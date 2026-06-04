@@ -13,6 +13,7 @@ import lombok.*;
 public class AgentResponse {
 
     private Long agentId;
+    private Long userId;
     private String name;
     private String phone;
 //    private String vehicleType;
@@ -23,8 +24,7 @@ public class AgentResponse {
     public boolean isAvailable() {
         return isAvailable;
     }
-    private Double currentLatitude;
-    private Double currentLongitude;
+
     private Integer totalDeliveries;
     private Double rating;
     private Double totalEarnings;

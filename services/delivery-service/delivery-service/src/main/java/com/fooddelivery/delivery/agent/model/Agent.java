@@ -1,5 +1,7 @@
 package com.fooddelivery.delivery.agent.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fooddelivery.delivery.delivery.model.Delivery;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -16,23 +18,29 @@ import java.util.List;
 public class Agent {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long agentId;        // same as userId from auth-service
-
+    private Long userId;
     private String name;
     private String phone;
-    private String profilePhoto;
 
     private boolean isAvailable;
     private Long currentDeliveryId;  // null = free
 
-    private Double currentLatitude;
-    private Double currentLongitude;
-    private LocalDateTime locationUpdatedAt;
 
     private Integer totalDeliveries;
     private Double totalEarnings;
     private Double rating;
     private Integer totalRatings;
+
+    @OneToMany(
+            mappedBy = "agent",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    @JsonIgnore  // ← prevents infinite loop
+    @Builder.Default
+    private List<Delivery> deliveries
+            = new ArrayList<>();
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -42,7 +50,10 @@ public class Agent {
             name = "agent_reviews",
             joinColumns = @JoinColumn(name = "agent_id"))
     @Column(name = "review")
-    private List<String> recentReviews = new ArrayList<>();
+    @Builder.Default
+    private List<String> recentReviews
+            = new ArrayList<>();
+
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();
@@ -51,7 +62,7 @@ public class Agent {
         totalEarnings = 0.0;
         rating = 0.0;
         totalRatings = 0;
-        isAvailable = false;
+        isAvailable = true;
     }
 
     @PreUpdate

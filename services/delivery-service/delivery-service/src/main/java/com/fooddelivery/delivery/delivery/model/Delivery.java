@@ -1,5 +1,7 @@
 package com.fooddelivery.delivery.delivery.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fooddelivery.delivery.agent.model.Agent;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -18,6 +20,14 @@ public class Delivery {
     private Long deliveryId;
     private String authToken;
     private Long orderId;
+    // Many Deliveries → One Agent
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "agent_id")
+    @JsonIgnore  // ← prevents infinite loop
+    private Agent agent;
+    @Column(name = "agent_id",
+            insertable = false,
+            updatable = false)
     private Long agentId;
     private Long restaurantId;
 

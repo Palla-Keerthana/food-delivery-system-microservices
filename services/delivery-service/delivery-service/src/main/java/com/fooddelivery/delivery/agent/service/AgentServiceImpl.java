@@ -10,8 +10,10 @@ import com.fooddelivery.delivery.exception.AgentNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,13 +27,36 @@ public class AgentServiceImpl implements AgentService {
     public AgentResponse registerAgent(Long userId,
                                        String name,
                                        String phone) {
+
+        // check if agent already exists by userId
+        Optional<Agent> existing = agentRepository
+                .findByUserId(userId);
+
+        if (existing.isPresent()) {
+            System.out.println(
+                    "Agent already exists for userId: "
+                            + userId);
+            return mapToResponse(existing.get());
+        }
+
         Agent agent = Agent.builder()
-                .agentId(userId)
+                .userId(userId)
                 .name(name)
                 .phone(phone)
-                .isAvailable(false)
+                .isAvailable(true)       // ← set explicitly
+                .totalDeliveries(0)      // ← set explicitly
+                .totalEarnings(0.0)      // ← set explicitly
+                .rating(0.0)             // ← set explicitly
+                .totalRatings(0)         // ← set explicitly
+                .createdAt(LocalDateTime.now())  // ← set explicitly
+                .updatedAt(LocalDateTime.now())  // ← set explicitly
                 .build();
-        return mapToResponse(agentRepository.save(agent));
+        Agent saved = agentRepository.save(agent);
+        System.out.println(
+                "✅ Agent created: " + saved.getAgentId()
+                        + " for userId: " + userId);
+
+        return mapToResponse(saved);
     }
 
     @Override
@@ -47,9 +72,7 @@ public class AgentServiceImpl implements AgentService {
         if (req.getPhone() != null)
             agent.setPhone(req.getPhone());
 
-        if (req.getProfilePhoto() != null)
-            agent.setProfilePhoto(req.getProfilePhoto());
-        return mapToResponse(agentRepository.save(agent));
+          return mapToResponse(agentRepository.save(agent));
     }
     @Override
     public RatingResponse rateAgent(
@@ -98,17 +121,6 @@ public class AgentServiceImpl implements AgentService {
         agentRepository.save(agent);
     }
 
-    @Override
-    public void updateLocation(Long agentId,
-                               Double latitude,
-                               Double longitude) {
-        Agent agent = findAgentById(agentId);
-        agent.setCurrentLatitude(latitude);
-        agent.setCurrentLongitude(longitude);
-        agent.setLocationUpdatedAt(
-                java.time.LocalDateTime.now());
-        agentRepository.save(agent);
-    }
 
     @Override
     public DeliveryResponse getCurrentDelivery(Long agentId) {
@@ -168,11 +180,10 @@ public class AgentServiceImpl implements AgentService {
     private AgentResponse mapToResponse(Agent agent) {
         return AgentResponse.builder()
                 .agentId(agent.getAgentId())
+                .userId(agent.getUserId())   // ← userId included
                 .name(agent.getName())
                 .phone(agent.getPhone())
                 .isAvailable(agent.isAvailable())
-                .currentLatitude(agent.getCurrentLatitude())
-                .currentLongitude(agent.getCurrentLongitude())
                 .totalDeliveries(agent.getTotalDeliveries())
                 .rating(agent.getRating())
                 .totalEarnings(agent.getTotalEarnings())

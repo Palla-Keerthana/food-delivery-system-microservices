@@ -17,6 +17,8 @@ public class AgentController {
 
     private final AgentService agentService;
 
+
+
     // get agent profile
     @GetMapping("/{agentId}")
     public ResponseEntity<AgentResponse> getAgent(
@@ -34,6 +36,16 @@ public class AgentController {
                 agentService.updateAgentDetails(agentId, request));
     }
 
+
+    @PostMapping("/create")
+    public ResponseEntity<AgentResponse> createAgent(
+            @RequestBody AgentCreateRequest request) {
+        return ResponseEntity.ok(
+                agentService.registerAgent(
+                        request.getUserId(),  // ← userId becomes agentId
+                        request.getName(),
+                        request.getPhone()));
+    }
     // go online or offline
     @PutMapping("/{agentId}/availability")
     public ResponseEntity<Void> updateAvailability(
@@ -44,17 +56,7 @@ public class AgentController {
         return ResponseEntity.ok().build();
     }
 
-    // update GPS location
-    @PutMapping("/{agentId}/location")
-    public ResponseEntity<Void> updateLocation(
-            @PathVariable Long agentId,
-            @RequestBody AgentLocationRequest request) {
-        agentService.updateLocation(
-                agentId,
-                request.getLatitude(),
-                request.getLongitude());
-        return ResponseEntity.ok().build();
-    }
+
 
     // get current active delivery
     @GetMapping("/{agentId}/current-delivery")

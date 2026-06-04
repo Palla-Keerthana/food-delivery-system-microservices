@@ -80,6 +80,14 @@ public class AuthServiceImpl implements AuthService {
                 agentRequest.setUserId(savedUser.getUserId());
                 agentRequest.setName(request.getName());     // ← was setAgentName
                 agentRequest.setPhone(request.getPhone());   // ← was setContactNumber
+
+                // ← add debug log
+                System.out.println("Sending to delivery-service:");
+                System.out.println("userId: " + agentRequest.getUserId());
+                System.out.println("name: " + agentRequest.getName());
+                System.out.println("phone: " + agentRequest.getPhone());
+
+
                 try {
                     agentClient.registerAgent(agentRequest); // ← was createProfile
                     log.info("Agent profile created for userId: {}", savedUser.getUserId());

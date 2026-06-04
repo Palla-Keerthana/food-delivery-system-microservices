@@ -6,7 +6,8 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AgentUpdateRequest {
-
+public class AgentCreateRequest {
+    private Long userId;  // ← matches auth-service AgentRequest
+    private String name;
     private String phone;
 }
