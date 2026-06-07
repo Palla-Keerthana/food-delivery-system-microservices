@@ -4,6 +4,7 @@ import com.fooddelivery.auth.dto.LoginRequest;
 import com.fooddelivery.auth.dto.LoginResponse;
 import com.fooddelivery.auth.dto.RegisterRequest;
 import com.fooddelivery.auth.entity.User;
+import com.fooddelivery.auth.entity.Role;
 import com.fooddelivery.auth.exception.AuthenticationException;
 import com.fooddelivery.auth.exception.GlobalExceptionHandler;
 import com.fooddelivery.auth.exception.InvalidRequestException;
@@ -44,7 +45,7 @@ class AuthControllerTest {
     // ─── Helpers ──────────────────────────────────────────────────────────────
 
     private RegisterRequest buildRegisterRequest(String email, String password,
-                                                 User.Role role, String name) {
+                                                 Role role, String name) {
         RegisterRequest req = new RegisterRequest();
         req.setEmail(email);
         req.setPassword(password);
@@ -73,7 +74,7 @@ class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(buildRegisterRequest(
                                 "john@gmail.com", "Pass@123",
-                                User.Role.CUSTOMER, "John"))))
+                                Role.CUSTOMER, "John"))))
                 .andExpect(status().isOk())
                 .andExpect(content().string("User registered successfully"));
     }
@@ -84,7 +85,7 @@ class AuthControllerTest {
                 .thenReturn("User registered successfully");
 
         RegisterRequest req = buildRegisterRequest("resto@gmail.com",
-                "Pass@123", User.Role.RESTAURANT_OWNER, "Owner");
+                "Pass@123", Role.RESTAURANT_OWNER, "Owner");
         req.setRestaurantName("Spice Garden");
         req.setLocation("Chennai");
         req.setContactNumber("9876543210");
@@ -105,7 +106,7 @@ class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(buildRegisterRequest(
                                 "agent@gmail.com", "Pass@123",
-                                User.Role.AGENT, "Ravi"))))
+                                Role.AGENT, "Ravi"))))
                 .andExpect(status().isOk())
                 .andExpect(content().string("User registered successfully"));
     }
@@ -115,7 +116,7 @@ class AuthControllerTest {
         mvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(buildRegisterRequest(
-                                null, "Pass@123", User.Role.CUSTOMER, "John"))))
+                                null, "Pass@123", Role.CUSTOMER, "John"))))
                 .andExpect(status().isBadRequest());
 
         verify(authService, never()).register(any());
@@ -127,7 +128,7 @@ class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(buildRegisterRequest(
                                 "john@gmail.com", null,
-                                User.Role.CUSTOMER, "John"))))
+                                Role.CUSTOMER, "John"))))
                 .andExpect(status().isBadRequest());
 
         verify(authService, never()).register(any());
@@ -139,7 +140,7 @@ class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(buildRegisterRequest(
                                 "john@gmail.com", "Pass@123",
-                                User.Role.CUSTOMER, null))))
+                                Role.CUSTOMER, null))))
                 .andExpect(status().isBadRequest());
 
         verify(authService, never()).register(any());
@@ -151,7 +152,7 @@ class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(buildRegisterRequest(
                                 "invalidemail", "Pass@123",
-                                User.Role.CUSTOMER, "John"))))
+                                Role.CUSTOMER, "John"))))
                 .andExpect(status().isBadRequest());
 
         verify(authService, never()).register(any());
@@ -166,7 +167,7 @@ class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(buildRegisterRequest(
                                 "john@gmail.com", "Pass@123",
-                                User.Role.CUSTOMER, "John"))))
+                                Role.CUSTOMER, "John"))))
                 .andExpect(status().isBadRequest());
     }
 

@@ -10,6 +10,7 @@ import com.fooddelivery.auth.dto.LoginResponse;
 import com.fooddelivery.auth.dto.RegisterRequest;
 import com.fooddelivery.auth.dto.RestaurantRequest;
 import com.fooddelivery.auth.entity.User;
+import com.fooddelivery.auth.entity.Role;
 import com.fooddelivery.auth.exception.AuthenticationException;
 import com.fooddelivery.auth.exception.InvalidRequestException;
 import com.fooddelivery.auth.repository.UserRepository;
@@ -44,7 +45,7 @@ class AuthServiceImplTest {
     // ─── Helpers ──────────────────────────────────────────────────────────────
 
     private User buildUser(Long userId, String email,
-                           String password, User.Role role, String status) {
+                           String password, Role role, String status) {
         User user = new User();
         user.setUserId(userId);
         user.setEmail(email);
@@ -55,7 +56,7 @@ class AuthServiceImplTest {
     }
 
     private RegisterRequest buildRegisterRequest(String email, String password,
-                                                 User.Role role, String name) {
+                                                 Role role, String name) {
         RegisterRequest req = new RegisterRequest();
         req.setEmail(email);
         req.setPassword(password);
@@ -80,11 +81,11 @@ class AuthServiceImplTest {
         when(userRepository.existsByEmail("john@gmail.com")).thenReturn(false);
         when(passwordEncoder.encode("Pass@123")).thenReturn("hashedPass");
         User savedUser = buildUser(1L, "john@gmail.com",
-                "hashedPass", User.Role.CUSTOMER, "ACTIVE");
+                "hashedPass", Role.CUSTOMER, "ACTIVE");
         when(userRepository.save(any(User.class))).thenReturn(savedUser);
 
         String result = authService.register(buildRegisterRequest(
-                "john@gmail.com", "Pass@123", User.Role.CUSTOMER, "John"));
+                "john@gmail.com", "Pass@123", Role.CUSTOMER, "John"));
 
         assertThat(result).isEqualTo("User registered successfully");
         verify(customerClient).createProfile(any(CustomerRequest.class));
@@ -97,11 +98,11 @@ class AuthServiceImplTest {
         when(userRepository.existsByEmail("resto@gmail.com")).thenReturn(false);
         when(passwordEncoder.encode(any())).thenReturn("hashedPass");
         User savedUser = buildUser(2L, "resto@gmail.com",
-                "hashedPass", User.Role.RESTAURANT_OWNER, "ACTIVE");
+                "hashedPass", Role.RESTAURANT_OWNER, "ACTIVE");
         when(userRepository.save(any())).thenReturn(savedUser);
 
         RegisterRequest req = buildRegisterRequest(
-                "resto@gmail.com", "Pass@123", User.Role.RESTAURANT_OWNER, "Owner");
+                "resto@gmail.com", "Pass@123", Role.RESTAURANT_OWNER, "Owner");
         req.setRestaurantName("Spice Garden");
         req.setLocation("Chennai");
         req.setContactNumber("9876543210");
@@ -119,11 +120,11 @@ class AuthServiceImplTest {
         when(userRepository.existsByEmail("agent@gmail.com")).thenReturn(false);
         when(passwordEncoder.encode(any())).thenReturn("hashedPass");
         User savedUser = buildUser(3L, "agent@gmail.com",
-                "hashedPass", User.Role.AGENT, "ACTIVE");
+                "hashedPass", Role.AGENT, "ACTIVE");
         when(userRepository.save(any())).thenReturn(savedUser);
 
         String result = authService.register(buildRegisterRequest(
-                "agent@gmail.com", "Pass@123", User.Role.AGENT, "Ravi"));
+                "agent@gmail.com", "Pass@123", Role.AGENT, "Ravi"));
 
         assertThat(result).isEqualTo("User registered successfully");
         verify(agentClient).registerAgent(any(AgentRequest.class));
@@ -136,7 +137,7 @@ class AuthServiceImplTest {
         when(userRepository.existsByEmail("john@gmail.com")).thenReturn(true);
 
         assertThatThrownBy(() -> authService.register(buildRegisterRequest(
-                "john@gmail.com", "Pass@123", User.Role.CUSTOMER, "John")))
+                "john@gmail.com", "Pass@123", Role.CUSTOMER, "John")))
                 .isInstanceOf(InvalidRequestException.class)
                 .hasMessageContaining("Email already registered");
 
@@ -149,11 +150,11 @@ class AuthServiceImplTest {
         when(userRepository.existsByEmail("john@gmail.com")).thenReturn(false);
         when(passwordEncoder.encode("Pass@123")).thenReturn("$2a$10$hashedValue");
         User savedUser = buildUser(1L, "john@gmail.com",
-                "$2a$10$hashedValue", User.Role.CUSTOMER, "ACTIVE");
+                "$2a$10$hashedValue", Role.CUSTOMER, "ACTIVE");
         when(userRepository.save(any())).thenReturn(savedUser);
 
         authService.register(buildRegisterRequest(
-                "john@gmail.com", "Pass@123", User.Role.CUSTOMER, "John"));
+                "john@gmail.com", "Pass@123", Role.CUSTOMER, "John"));
 
         verify(passwordEncoder).encode("Pass@123");
     }
@@ -163,11 +164,11 @@ class AuthServiceImplTest {
         when(userRepository.existsByEmail("john@gmail.com")).thenReturn(false);
         when(passwordEncoder.encode(any())).thenReturn("hashedPass");
         User savedUser = buildUser(1L, "john@gmail.com",
-                "hashedPass", User.Role.CUSTOMER, "ACTIVE");
+                "hashedPass", Role.CUSTOMER, "ACTIVE");
         when(userRepository.save(any())).thenReturn(savedUser);
 
         authService.register(buildRegisterRequest(
-                "john@gmail.com", "Pass@123", User.Role.CUSTOMER, "John"));
+                "john@gmail.com", "Pass@123", Role.CUSTOMER, "John"));
 
         ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
         verify(userRepository).save(captor.capture());
@@ -179,13 +180,13 @@ class AuthServiceImplTest {
         when(userRepository.existsByEmail("john@gmail.com")).thenReturn(false);
         when(passwordEncoder.encode(any())).thenReturn("hashedPass");
         User savedUser = buildUser(1L, "john@gmail.com",
-                "hashedPass", User.Role.CUSTOMER, "ACTIVE");
+                "hashedPass", Role.CUSTOMER, "ACTIVE");
         when(userRepository.save(any())).thenReturn(savedUser);
         doThrow(new RuntimeException("Service unavailable"))
                 .when(customerClient).createProfile(any());
 
         String result = authService.register(buildRegisterRequest(
-                "john@gmail.com", "Pass@123", User.Role.CUSTOMER, "John"));
+                "john@gmail.com", "Pass@123", Role.CUSTOMER, "John"));
 
         assertThat(result).isEqualTo("User registered successfully");
         verify(userRepository).save(any());
@@ -196,7 +197,7 @@ class AuthServiceImplTest {
     @Test
     void login_validCredentials_returnsLoginResponse() {
         User user = buildUser(1L, "john@gmail.com",
-                "hashedPass", User.Role.CUSTOMER, "ACTIVE");
+                "hashedPass", Role.CUSTOMER, "ACTIVE");
         when(userRepository.findByEmail("john@gmail.com"))
                 .thenReturn(Optional.of(user));
         when(passwordEncoder.matches("Pass@123", "hashedPass")).thenReturn(true);
@@ -215,7 +216,7 @@ class AuthServiceImplTest {
     @Test
     void login_wrongPassword_throwsAuthenticationException() {
         User user = buildUser(1L, "john@gmail.com",
-                "hashedPass", User.Role.CUSTOMER, "ACTIVE");
+                "hashedPass", Role.CUSTOMER, "ACTIVE");
         when(userRepository.findByEmail("john@gmail.com"))
                 .thenReturn(Optional.of(user));
         when(passwordEncoder.matches("wrongPass", "hashedPass")).thenReturn(false);
@@ -242,7 +243,7 @@ class AuthServiceImplTest {
     @Test
     void login_inactiveAccount_throwsAuthenticationException() {
         User user = buildUser(1L, "john@gmail.com",
-                "hashedPass", User.Role.CUSTOMER, "INACTIVE");
+                "hashedPass", Role.CUSTOMER, "INACTIVE");
         when(userRepository.findByEmail("john@gmail.com"))
                 .thenReturn(Optional.of(user));
         when(passwordEncoder.matches("Pass@123", "hashedPass")).thenReturn(true);
@@ -258,7 +259,7 @@ class AuthServiceImplTest {
     @Test
     void login_generatesTokenWithCorrectEmailAndRole() {
         User user = buildUser(1L, "john@gmail.com",
-                "hashedPass", User.Role.CUSTOMER, "ACTIVE");
+                "hashedPass", Role.CUSTOMER, "ACTIVE");
         when(userRepository.findByEmail("john@gmail.com"))
                 .thenReturn(Optional.of(user));
         when(passwordEncoder.matches("Pass@123", "hashedPass")).thenReturn(true);
@@ -273,7 +274,7 @@ class AuthServiceImplTest {
     @Test
     void login_returnsCorrectUserId() {
         User user = buildUser(5L, "john@gmail.com",
-                "hashedPass", User.Role.CUSTOMER, "ACTIVE");
+                "hashedPass", Role.CUSTOMER, "ACTIVE");
         when(userRepository.findByEmail("john@gmail.com"))
                 .thenReturn(Optional.of(user));
         when(passwordEncoder.matches("Pass@123", "hashedPass")).thenReturn(true);
