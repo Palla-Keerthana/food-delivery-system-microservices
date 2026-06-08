@@ -10,7 +10,7 @@ public interface OrderServiceClient {
 
     // get order details → fetch amount
     @GetMapping("/api/orders/{orderId}")
-    OrderResponse getOrder(
+    com.fooddelivery.paymentservice.client.OrderResponse getOrder(
             @PathVariable Long orderId);
 
     // update order status after payment
